@@ -4,6 +4,9 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import org.jsoup.*;
+import org.jsoup.nodes.*;
+
 public class DataReader {
 	private static Map<String, Integer> validWords = new HashMap<String, Integer>();
 	private static TreeSet<String> stopWords = new TreeSet<String>();
@@ -29,12 +32,16 @@ public class DataReader {
 	public static void main(String[] args) {
 		stopWordsFound = 0;
 		inputDataFileName = "SampleText.txt";
+		String inputDataUrlname = "http://www.ronanconnolly.ie/";
 		
 		System.out.println("Reading in stopwords file.");
 		stopwordsReader();
 		
-		System.out.println("Reading in sample text file.");
-		fileReader(inputDataFileName);
+//		System.out.println("Reading in sample text file.");
+//		fileReader(inputDataFileName);
+		
+		System.out.println("Reading in sample url.");
+		urlReader(inputDataUrlname);
 
 		System.out.println("\nprinting valid words");
 		printValidWords();
@@ -104,11 +111,41 @@ public class DataReader {
 	
 	public static void urlReader(String inputDataUrlname) {
 		URL oracle;
+		String html = "";
 		try {
 			oracle = new URL(inputDataUrlname);
-			
 			BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
-			wordLooper(in);
+			
+			String sentence;
+			while((sentence = in.readLine()) != null){
+				html += sentence;
+			}
+			in.close();
+			
+			// Jsoup
+			Document doc = Jsoup.parse(html);
+			Element link = doc.select("a").first();
+			
+			String text = doc.body().text(); // "An example link"
+			System.out.println("\nJsoup text: " + text);
+			
+			// OTHER EXAMPLE USE OF JSOUP
+//			String linkHref = link.attr("href"); // "http://example.com/"
+//			String linkText = link.text(); // "example""
+
+//			String linkOuterH = link.outerHtml();  // "<a href="http://example.com"><b>example</b></a>"
+//			String linkInnerH = link.html(); // "<b>example</b>"
+			
+//			System.out.println("link: " + link);
+//			
+//			System.out.println("linkHref: " + linkHref);
+//			System.out.println("linkText: " + linkText);
+//			
+//			System.out.println("linkOuterH: " + linkOuterH);
+//			System.out.println("linkInnerH: " + linkInnerH);
+			
+			process(text);
+			sortWords();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

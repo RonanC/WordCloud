@@ -12,7 +12,8 @@ public class WordCloudRunner {
 	
 	public static void main(String[] args) {
 		String inputDataFileName = "SampleText.txt";
-		String inputDataUrlname = "http://www.oracle.com/";
+//		String inputDataUrlname = "http://www.oracle.com/";
+		String inputDataUrlname = "http://www.ronanconnolly.ie/";
 		
 		dr = new DataReader();
 		id = new ImageDrawer();
