@@ -1,5 +1,5 @@
 package ie.gmit.sw.draw;
 
-public class DrawImage {
+public class ImageDrawer {
 
 }
