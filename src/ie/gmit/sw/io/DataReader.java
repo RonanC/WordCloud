@@ -1,6 +1,7 @@
 package ie.gmit.sw.io;
 
 import java.io.*;
+import java.net.*;
 import java.util.*;
 
 public class DataReader {
@@ -16,33 +17,27 @@ public class DataReader {
 	private static TreeMap<String, Integer> sortedWords = new TreeMap<String, Integer>(vc);
 	
 	public DataReader() {
-		inputDataFileName = "SampleText.txt";
+		//inputDataFileName = "SampleText.txt";
 		stopwordsReader();
-		fileReader();
-		sortWords();
 	}
 	
-	public DataReader(String fileName) {
-		inputDataFileName = fileName;
-		stopwordsReader();
-		fileReader();
-		sortWords();
-	}
+//	public DataReader(String fileName) {
+//		inputDataFileName = fileName;
+//		stopwordsReader();
+//	}
 	
 	public static void main(String[] args) {
 		stopWordsFound = 0;
+		inputDataFileName = "SampleText.txt";
 		
 		System.out.println("Reading in stopwords file.");
 		stopwordsReader();
 		
 		System.out.println("Reading in sample text file.");
-		fileReader();
+		fileReader(inputDataFileName);
 
 		System.out.println("\nprinting valid words");
 		printValidWords();
-		
-		System.out.println("\nsorting words");
-		sortWords();
 		
 		System.out.println("\nprinting sorted words");
 		printSortedWords();
@@ -84,18 +79,39 @@ public class DataReader {
 		}
 	}
 
-	private static void fileReader() {
+	
+	public static void fileReader(String inputDataFileName) {
 		// read sample text in from file
 		try{
 			BufferedReader in = new BufferedReader(new FileReader(inputDataFileName));
-			String sentence;
-			while((sentence = in.readLine()) != null){
-				process(sentence);
-			}
-			in.close();
+			wordLooper(in);
 		}
 		catch(IOException e){
 			System.out.println("Error: " + e.getMessage());
+		}
+		
+	}
+
+	private static void wordLooper(BufferedReader in) throws IOException {
+		String sentence;
+		while((sentence = in.readLine()) != null){
+			process(sentence);
+		}
+		in.close();
+		
+		sortWords();
+	}
+	
+	public static void urlReader(String inputDataUrlname) {
+		URL oracle;
+		try {
+			oracle = new URL(inputDataUrlname);
+			
+			BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
+			wordLooper(in);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -128,9 +144,11 @@ public class DataReader {
 			stopWordsFound++;
 		}
 	}
-
 	
 	private static void sortWords(){
+		sortedWords.clear();
 		sortedWords.putAll(validWords);
 	}
+	
+	
 }
