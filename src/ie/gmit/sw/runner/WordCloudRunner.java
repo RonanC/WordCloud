@@ -11,18 +11,22 @@ public class WordCloudRunner {
 	static ImageDrawer id;
 	
 	public static void main(String[] args) {
-		String inputDataFileName = "SampleText.txt";
+//		String inputDataFileName = "SampleText.txt";
+		String inputDataFileName = "oopAss.txt";
+		
 //		String inputDataUrlname = "http://www.oracle.com/";
 		String inputDataUrlname = "http://www.ronanconnolly.ie/";
 		
 		dr = new DataReader();
 		id = new ImageDrawer();
 		
-//		System.out.println("Reading in sample text file.");
-//		dr.fileReader(inputDataFileName);
 		
-		System.out.println("Reading in sample url.");
-		dr.urlReader(inputDataUrlname);
+		
+		System.out.println("Reading in sample text file.");
+		dr.fileReader(inputDataFileName);
+		
+//		System.out.println("Reading in sample url.");
+//		dr.urlReader(inputDataUrlname);
 		
 		System.out.println("\nprinting valid words");
 		dr.printValidWords();
