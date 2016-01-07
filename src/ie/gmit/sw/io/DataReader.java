@@ -12,6 +12,7 @@ public class DataReader {
 	private static TreeSet<String> stopWords = new TreeSet<String>();
 	
 	private static int stopWordsFound;
+
 	private static String inputDataFileName;
 	private static String stopWordsFileName = "stopwords.txt";
 	
@@ -19,17 +20,28 @@ public class DataReader {
 	private static ValueComparator vc = new ValueComparator(validWords);
 	private static TreeMap<String, Integer> sortedWords = new TreeMap<String, Integer>(vc);
 	
+	public static TreeMap<String, Integer> getSortedWords() {
+		return sortedWords;
+	}
+
+	public static void clearValidWords() {
+		validWords.clear();
+	}
+
+
 	public DataReader() {
 		//inputDataFileName = "SampleText.txt";
 		stopwordsReader();
 	}
+	
+	
 	
 //	public DataReader(String fileName) {
 //		inputDataFileName = fileName;
 //		stopwordsReader();
 //	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		stopWordsFound = 0;
 		inputDataFileName = "SampleText.txt";
 		String inputDataUrlname = "http://www.ronanconnolly.ie/";
@@ -109,10 +121,10 @@ public class DataReader {
 		sortWords();
 	}
 	
-	public static void urlReader(String inputDataUrlname) {
+	public static void urlReader(String inputDataUrlname) throws Exception {
 		URL oracle;
 		String html = "";
-		try {
+//		try {
 			oracle = new URL(inputDataUrlname);
 			BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
 			
@@ -146,10 +158,9 @@ public class DataReader {
 			
 			process(text);
 			sortWords();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	private static void process(String sentence) {
@@ -161,7 +172,6 @@ public class DataReader {
 			if(word.length() > 1){
 				addWord(word);
 			}
-			
 		}
 	}
 
@@ -187,5 +197,7 @@ public class DataReader {
 		sortedWords.putAll(validWords);
 	}
 	
-	
+	public static int getStopWordsFound() {
+		return stopWordsFound;
+	}
 }
