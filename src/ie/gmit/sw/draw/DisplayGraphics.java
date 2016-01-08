@@ -206,7 +206,7 @@ public class DisplayGraphics extends JPanel{
 //				areaB = new Area(shape);
 //				areaA.intersect(areaB);
 //				intersection = !areaA.isEmpty();
-				System.out.println("start-intersection: " + intersection);
+				//System.out.println("start-intersection: " + intersection);
 			}
 
 			
@@ -226,13 +226,13 @@ public class DisplayGraphics extends JPanel{
 				totalArea.add(new Area(shape));
 				shapes.add(shape);
 			}else{
-				System.out.println("intersection: " + intersection);
+				//System.out.println("intersection: " + intersection);
 				
 //				areaA = new Area(shapes.get(0));
 
 				
 				// custom spiral
-				final int MAX_N = 5000000; //winWidth * winHeight;
+				final int MAX_N = 2500000; //winWidth * winHeight;
 				int count = 1; 
 //				boolean goingRight, goingDown, goingLeft, goingUp;
 //				goingRight = true;
@@ -257,13 +257,7 @@ public class DisplayGraphics extends JPanel{
 						
 				
 				// between -90 and 90
-//				int maximum = 30;
-//				int minimum = 0;
-//				Random rn = new Random();
-//				int n = maximum - minimum + 1;
-//				int i = rn.nextInt() % n;
-//				int randomNum =  minimum + i;
-//				System.out.println("ranNum: " + randomNum);
+
 				
 				
 				
@@ -275,6 +269,31 @@ public class DisplayGraphics extends JPanel{
 //				incU = 20;
 //				incD = 20;
 				
+				
+				int xRan = winWidth;
+				int yRan = winHeight;
+				
+			    x += randomNum(xRan);
+			    y += randomNum(yRan);
+				
+//				while(x <= 50){
+//					x += randomNum(xRan);
+//				}
+//				
+//				while(y <= 75){
+//					y += randomNum(yRan);
+//				}
+				
+
+//			    System.out.println("x: " + x + "\t\ty: " + y);
+				if(x > winWidth - 50 || x < 50){
+					x = midX;
+				}
+				
+				if(y > winHeight - 50 || y < 50){
+					y = midY;
+				}
+//				
 				while(intersection && count <= MAX_N){ // && current <= N*N
 					
 //					inc = (int) Math.round(inc * 1.5);
@@ -406,10 +425,27 @@ public class DisplayGraphics extends JPanel{
 //						
 //
 //					}
+					// RANDOM
 					
-					
-					    
+					if(count % 2 == 0){
 						
+					
+						xRan = winWidth / 4;
+						yRan = winHeight / 4;
+						
+					    x += randomNum(xRan);
+					    y += randomNum(yRan);
+//					    System.out.println("x: " + x + "\t\ty: " + y);
+						if(x > winWidth || x < 0){
+							x = midX;
+						}
+						
+						if(y > winHeight || y < 0){
+							y = midY;
+						}
+					}
+						
+					    		
 						shape = new Rectangle(x, y - wordHeight / 2, wordWidth, wordHeight / 2);
 						
 						intersection = testIntersection(totalArea, shape);
@@ -530,6 +566,16 @@ public class DisplayGraphics extends JPanel{
 		
 		
 		
+	}
+
+	private int randomNum(int maximum) {
+		int minimum = 0;
+		Random rn = new Random();
+		int n = maximum - minimum + 1;
+		int i = rn.nextInt() % n;
+		int randomNum =  minimum + i;
+//		System.out.println("ranNum: " + randomNum);
+		return randomNum;
 	}
 
 //	public void paint(Graphics g){
