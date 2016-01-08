@@ -13,7 +13,7 @@ public class DisplayGraphics extends JPanel{
 	private static final long serialVersionUID = 1L;
 
 	private int winWidth = 1000;
-	private int winHeight = 500;
+	private int winHeight = 1000;
 	private int midX = winWidth / 2;
 	private int midY = winHeight / 2;
 	
@@ -97,7 +97,30 @@ public class DisplayGraphics extends JPanel{
 		
 		Area totalArea = null;
 		
+		
+		// spiral stuff
+//		int spiral [] [] = new int[1000][1000];
+//		final int N = 200;
+		
+		
+//		int current = 1;
+//		// Start in the corner
+//		int x = midX, y = midY;
+//		int dx = 25, dy = 0;
+		
+		
+		int x = midX, y = midY;
+//		int x = 50, y = 75;
+		int direction = 0;
+		int inc = 10;
+		int smallInc = inc / 8;
+		
+//		int incH = 20;
+//		int incV = 10;
+		
+		
 		for (WordObject wordObject : words) {
+//			int x = midX, y = midY;
 			// save area
 			Graphics2D g2d = (Graphics2D) g.create();
 			
@@ -108,12 +131,11 @@ public class DisplayGraphics extends JPanel{
 			int wordLen = wordObject.getWord().length();
 			
 			
-			// spiral stuff
-			int spiral [] [] = new int[1000][1000];
-			final int N = 1000;
-			int current = 1;
-			// Start in the corner
-			int x = 0, y = 0, dx = 1, dy = 0;
+			// spiral init
+//			int current = 1;
+//			// Start in the corner
+//			int x = midX, y = midY;
+//			int dx = 1, dy = 0;
 			
 //			while (current <= N*N) {
 //			    // Go in a straight line
@@ -139,7 +161,13 @@ public class DisplayGraphics extends JPanel{
 			
 //			System.out.println("fontSize: " + fontSize * 3 + "\t\tx: " + x + "\t\txInc: " + (xInc + (fontSize * 2) + (wordLen * 10))  + "\t\ty: " + y + "\t\tyInc: " + (yInc + fontSize) + "\t\twordLen: " + (wordLen * 10) + "\t\tword: " + wordObject.getWord());
 //			System.out.println("fontSize: " + fontSize * 3 + "\t\ty: " + y + "\t\tyInc: " + (yInc + fontSize) );
-			System.out.println("x: " + x + "\t\ty" + y + "\t\tword: " + wordObject.getWord());
+			
+			
+			
+//			int x = midX, y = midY;
+//			int x = 50, y = 50;
+			
+//			System.out.println("x: " + x + "\t\ty" + y + "\t\tword: " + wordObject.getWord());
 			
 
 			
@@ -187,27 +215,79 @@ public class DisplayGraphics extends JPanel{
 			
 				
 				g2d.drawString(wordObject.getWord(), x, y);
-				g2d.draw(shape);
+//				g2d.draw(shape);
 				totalArea = new Area(shape);
 				shapes.add(shape);
 			} else if(!intersection){
-				System.out.println(intersection);
+				System.out.println("intersection: " + intersection);
 
 				g2d.drawString(wordObject.getWord(), x, y);
 				g2d.draw(shape);
 				totalArea.add(new Area(shape));
 				shapes.add(shape);
 			}else{
-				System.out.println("intersecting");
+				System.out.println("intersection: " + intersection);
 				
 //				areaA = new Area(shapes.get(0));
+
+				
+				// custom spiral
+				final int MAX_N = 5000000; //winWidth * winHeight;
+				int count = 1; 
+//				boolean goingRight, goingDown, goingLeft, goingUp;
+//				goingRight = true;
+//				goingDown = goingLeft = goingUp = false;
+//				
+//				if(inc >= 20){
+//					inc /= 1.1;
+//					smallInc /= 1.1;
+//				}
+//				else if(inc <= 25){
+//					inc *= 1.1;
+//					smallInc *= 1.1;
+//				}
+				
+				inc = (int) Math.round(inc * 0.8);
+//				inc = (int) Math.round(incV * 0.8);
+//				inc = (int) Math.round(inc * 1.1);
+
+				
+				inc %= 100;
+//				inc %= 100;
+						
+				
+				// between -90 and 90
+//				int maximum = 30;
+//				int minimum = 0;
+//				Random rn = new Random();
+//				int n = maximum - minimum + 1;
+//				int i = rn.nextInt() % n;
+//				int randomNum =  minimum + i;
+//				System.out.println("ranNum: " + randomNum);
 				
 				
-				while(intersection){
+				
+				
+				
+//				int incR, incL, incU, incD;
+//				incR = 30;
+//				incL = 20;
+//				incU = 20;
+//				incD = 20;
+				
+				while(intersection && count <= MAX_N){ // && current <= N*N
+					
+//					inc = (int) Math.round(inc * 1.5);
+					
 //					System.out.println("before intersection: " + intersection);
 			
 //					while (current <= N*N && intersection) {
 //					    // Go in a straight line
+//			    	if(x < 0){
+//				        x = 1;
+//			    	}
+					
+					
 //					    spiral[x][y] = current++;
 //					    int nx = x + dx, ny = y + dy;
 //					    // When you hit the edge...
@@ -216,18 +296,132 @@ public class DisplayGraphics extends JPanel{
 //					        int t = dy;
 //					        dy = dx;
 //					        dx = -t;
+//					    	
+//					        // turn on y
+////					        int t = dx;
+////					        dx = dy;
+////					        dy = -t;
+//
 //					    }
-//					    x += dx;
-//					    y += dy;
+//					    x += dx*2;
+//					    y += dy*2;
 					    
 					
-					x += 1;
-					y += 1;
-					System.out.println("x: " + x + "\t\ty: " + y);
+					count++;
 					
-					shape = new Rectangle(x, y - wordHeight / 2, wordWidth, wordHeight / 2);
-					intersection = testIntersection(totalArea, shape);
-					System.out.println(intersection);
+					
+					
+					// 0 = r
+					// 1 = d
+					// 2 = l
+					// 3 = u
+					
+					switch (direction) {
+					case 0: // r
+						if(x >= winWidth){
+							direction = 1;
+						}
+						else{
+							x += inc;
+							y += smallInc;
+						}
+						break;
+						
+					case 1: // d
+						if(y >= winHeight - 50){
+							direction = 2;
+						}else{
+							y += inc;
+							x -= smallInc;
+						}
+						break;
+						
+					case 2: // l
+						if(x <= 50){
+							direction = 3;
+						}
+						else{
+							x -= inc;
+							y -= smallInc;
+						}
+						break;
+						
+					case 3: // u
+						if(y <= 50){
+							direction = 0;
+						}
+						else{
+							y -= inc;
+							x += smallInc;
+						}
+						break;
+
+					default:
+						break;
+					}
+					
+//					if(goingRight){
+//
+//						
+//						if(x >= winWidth){
+//							goingRight = false;
+//							goingDown = true;
+//						}
+//						else{
+//							x += incR;
+////							y += smallInc;
+//						}
+//						
+//					} else if(goingDown){
+//						if(y >= winHeight - 50){
+//							goingDown = false;
+//							goingLeft = true;
+//						}else{
+//							y += incD;
+////							x -= smallInc;
+//						}
+//						
+//					} else if(goingLeft){
+//						if(x <= 50){
+//							goingLeft = false;
+//							goingUp = true;
+//						}
+//						else{
+//							x -= incL;
+////							y -= smallInc;
+//						}
+//						
+//
+//					} else if(goingUp){
+//
+//						
+//						if(y <= 50){
+//							goingUp = false;
+//							goingRight = true;
+//						}
+//						else{
+//							y -= incU;
+////							x += smallInc;
+//						}
+//						
+//
+//					}
+					
+					
+					    
+						
+						shape = new Rectangle(x, y - wordHeight / 2, wordWidth, wordHeight / 2);
+						
+						intersection = testIntersection(totalArea, shape);
+						
+						if(!intersection){
+							if(shape.x + wordWidth >= winWidth){
+								intersection = true;
+							}
+						}
+						
+//						System.out.print("intersection: " + intersection + "\t\tx: " + x + "\t\ty: " + y + "\t\tword: " + wordObject.getWord());
+//						System.out.print("\t\tcount: " + count + "\t\t\t\t");
 					}
 //					areaB = new Area(shape);
 //					areaA.intersect(areaB);
@@ -235,9 +429,12 @@ public class DisplayGraphics extends JPanel{
 //					intersection = !areaA.isEmpty();
 //					System.out.println("after intersection: " + intersection);
 //				}
+				AffineTransform at = g2d.getTransform();
 				
+//				g2d.rotate(randomNum);
 				g2d.drawString(wordObject.getWord(), x, y);
-				g2d.draw(shape);
+				System.out.println("x: " + x + "\t\ty" + y + "\t\tword: " + wordObject.getWord());
+//				g2d.draw(shape);
 				totalArea.add(new Area(shape));
 				shapes.add(shape);
 			}
