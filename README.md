@@ -2,7 +2,7 @@
 ###### Word Cloud program created from either a file or url. Written in Java.
 **by Ronan Connolly**  
 
-![oopAss cover](https://github.com/RonanC/WordCloud/blob/master/cover.png "oopAss cover")
+![oopAss cover](https://github.com/RonanC/WordCloud/blob/master/graphics/cover.png "oopAss cover")
 
 Contents:
 ---------
