@@ -14,10 +14,10 @@ class ValueComparator implements Comparator<String> {
 		this.base = base;
 	}
 
+	/**
+	 * Compares the count of each key from the maps value.
+	 */
 	public int compare(String a, String b) {
-		/**
-		 * Compares the count of each key from the maps value.
-		 */
 		if (base.get(a) >= base.get(b)) {
 			return -1;
 		} else {

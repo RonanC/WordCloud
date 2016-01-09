@@ -39,27 +39,26 @@ public class DataReader {
 		stopwordsReader();
 	}
 
+	/**
+	 * Prints out the parsed words (with the unnecessary words removed).
+	 */
 	public void printValidWords() {
-		/**
-		 * Prints out the parsed words (with the unnecessary words removed).
-		 */
 		System.out.println("words: " + validWords);
 		System.out.println(validWords.size() + " unique words");
 	}
 
+	/**
+	 * Prints out the valid words in sorted order.
+	 */
 	public void printSortedWords() {
-		/**
-		 * Prints out the valid words in sorted order.
-		 */
 		System.out.println("sorted words: " + sortedWords);
 		System.out.println(sortedWords.size() + " unique words");
 	}
 
+	/**
+	 * Reads in the stop words list (words to be blocked while parsing in data).
+	 */
 	private void stopwordsReader() {
-		/**
-		 * Reads in the stop words list (words to be blocked while parsing in
-		 * data).
-		 */
 		// read stopwords in from file
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(stopWordsFileName));
@@ -75,10 +74,13 @@ public class DataReader {
 		}
 	}
 
+	/**
+	 * Read in data from a file.
+	 * 
+	 * @param inputDataFileName
+	 *            is the path to the local file.
+	 */
 	public void fileReader(String inputDataFileName) {
-		/**
-		 * Read in data from a file.
-		 */
 		// read sample text in from file
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(inputDataFileName));
@@ -89,10 +91,10 @@ public class DataReader {
 
 	}
 
+	/**
+	 * Loops through sentences, once finished starts the sorting.
+	 */
 	private void wordLooper(BufferedReader in) throws IOException {
-		/**
-		 * Loops through sentences, once finished starts the sorting.
-		 */
 		String sentence;
 		while ((sentence = in.readLine()) != null) {
 			process(sentence);
@@ -102,11 +104,17 @@ public class DataReader {
 		sortWords();
 	}
 
+	/**
+	 * Reads in data from a URL and parses it using a Third party library called
+	 * JSOUP.
+	 * 
+	 * @param inputDataUrlname
+	 *            is the URL to be retrieved.
+	 * @exception Exception
+	 *                on input error.
+	 * @see Exception
+	 */
 	public void urlReader(String inputDataUrlname) throws Exception {
-		/**
-		 * Reads in data from a URL and parses it using a Third party library
-		 * called JSOUP.
-		 */
 		URL oracle;
 		String html = "";
 		oracle = new URL(inputDataUrlname);
@@ -145,10 +153,10 @@ public class DataReader {
 		sortWords();
 	}
 
+	/**
+	 * Removes punctuation and calls the add word method.
+	 */
 	private void process(String sentence) {
-		/**
-		 * Removes punctuation and calls the add word method.
-		 */
 		// removes punctuation + to_lowercase
 		String[] words = sentence.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
 
@@ -160,11 +168,11 @@ public class DataReader {
 		}
 	}
 
+	/**
+	 * Adds a word to the map or else increases its count. Checks words against
+	 * the stop word list.
+	 */
 	private void addWord(String word) {
-		/**
-		 * Adds a word to the map or else increases its count. Checks words
-		 * against the stop word list.
-		 */
 		if (!stopWords.contains(word)) {
 
 			if (validWords.containsKey(word)) {
@@ -179,18 +187,21 @@ public class DataReader {
 		}
 	}
 
+	/**
+	 * Uses the ValueComparator class to sort the Map into a Treeset.
+	 */
 	private void sortWords() {
-		/**
-		 * Uses the ValueComparator class to sort the Map into a Treeset.
-		 */
 		sortedWords.clear();
 		sortedWords.putAll(validWords);
 	}
 
+	/**
+	 * Returns the stopWordsFound count.
+	 * 
+	 * @return int This returns the number of stop words that were found during
+	 *         parsing.
+	 */
 	public int getStopWordsFound() {
-		/**
-		 * Returns the stopWordsFound count.
-		 */
 		return stopWordsFound;
 	}
 }

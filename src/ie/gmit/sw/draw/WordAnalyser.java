@@ -30,11 +30,10 @@ public class WordAnalyser {
 		analyse();
 	}
 
+	/**
+	 * Analyzes each word and chooses its font details. This only happens once.
+	 */
 	private void analyse() {
-		/**
-		 * Analyzes each word and chooses its font details. This only happens
-		 * once.
-		 */
 		for (Map.Entry<String, Integer> entry : sortedWords.entrySet()) {
 			String key = entry.getKey();
 			Integer value = entry.getValue();
@@ -96,10 +95,10 @@ public class WordAnalyser {
 		}
 	}
 
+	/**
+	 * Calculates the correct ratio and percentage for the font scaling.
+	 */
 	private void fontSizer() {
-		/**
-		 * Calculates the correct ratio and percentage for the font scaling.
-		 */
 		// font sizer
 		// get init data
 		WordObject firstWord = words.get(0);
@@ -125,11 +124,10 @@ public class WordAnalyser {
 				highestCount, diff, percentDiff, newSize);
 	}
 
+	/**
+	 * Returns a random font name based on the available fonts on the system.
+	 */
 	private String getFontName() {
-		/**
-		 * Returns a random font name based on the available fonts on the
-		 * system.
-		 */
 		String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 		int index = (int) (Math.random() * (fontNames.length - 1));
 		String fontName = fontNames[index];
@@ -137,10 +135,10 @@ public class WordAnalyser {
 		return fontName;
 	}
 
+	/**
+	 * Returns a random color.
+	 */
 	private Color getColor() {
-		/**
-		 * Returns a random color.
-		 */
 		int red = (int) (Math.random() * 255);
 		int green = (int) (Math.random() * 255);
 		int blue = (int) (Math.random() * 255);

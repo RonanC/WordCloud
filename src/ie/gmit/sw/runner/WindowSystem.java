@@ -77,10 +77,10 @@ public class WindowSystem {
 		setupAL();
 	}
 
+	/**
+	 * Configuration settings for the frame.
+	 */
 	private void config() {
-		/**
-		 * Configuration settings for the frame.
-		 */
 		// set up icon
 		// Image image = new ImageIcon("cloud.png").getImage();
 		// fr.setIconImage(image);
@@ -96,10 +96,10 @@ public class WindowSystem {
 
 	}
 
+	/**
+	 * Creates the various GUI components needed.
+	 */
 	private void createComps() {
-		/**
-		 * Creates the various GUI components needed.
-		 */
 		// MAX NUM
 		// maxNum tf
 		int tfMwWidth = (int) Math.round(winWidth * .83); // 500;
@@ -202,10 +202,10 @@ public class WindowSystem {
 
 	}
 
+	/**
+	 * Adds the various components to the frame.
+	 */
 	private void addComps() {
-		/**
-		 * Adds the various components to the frame.
-		 */
 		// add
 		fr.add(tfMaxWords);
 		fr.add(lblMaxWords);
@@ -223,10 +223,10 @@ public class WindowSystem {
 
 	}
 
+	/**
+	 * Sets up the Action Listeners.
+	 */
 	private void setupAL() {
-		/**
-		 * Sets up the Action Listeners.
-		 */
 		// create word cloud button
 		btnCreate.addActionListener(new ActionListener() {
 			@Override
