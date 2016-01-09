@@ -3,12 +3,17 @@ package ie.gmit.sw.draw;
 import java.awt.*;
 import java.util.*;
 
+/**
+ * 
+ * Analyzes the words to predict what font details they should have.
+ *
+ */
 public class WordAnalyser {
 	// data
 	private TreeMap<String, Integer> sortedWords;
 	private ArrayList<WordObject> words = new ArrayList<WordObject>();
 	private int maxWords;
-	
+
 	// globals
 	// font sizer
 	double diff, percentDiff;
@@ -26,6 +31,10 @@ public class WordAnalyser {
 	}
 
 	private void analyse() {
+		/**
+		 * Analyzes each word and chooses its font details. This only happens
+		 * once.
+		 */
 		for (Map.Entry<String, Integer> entry : sortedWords.entrySet()) {
 			String key = entry.getKey();
 			Integer value = entry.getValue();
@@ -46,7 +55,7 @@ public class WordAnalyser {
 		int min = 0;
 		int choice = random.nextInt(max - min + 1) + min;
 
-//		System.out.println("choice: " + choice);
+		// System.out.println("choice: " + choice);
 
 		fontSizer();
 
@@ -60,11 +69,12 @@ public class WordAnalyser {
 				count++;
 
 				double newFontSize = wordObject.getCount() / percentDiff; // 15
-//				System.out.println("diff: " + diff + "\t\tnewFontSize: " + newFontSize);
+				// System.out.println("diff: " + diff + "\t\tnewFontSize: " +
+				// newFontSize);
 
-				if(newFontSize < 10)
+				if (newFontSize < 10)
 					newFontSize = 10;
-				
+
 				wordObject.setFontSize((int) Math.round(newFontSize));
 
 				if (choice == 0) {
@@ -87,30 +97,39 @@ public class WordAnalyser {
 	}
 
 	private void fontSizer() {
+		/**
+		 * Calculates the correct ratio and percentage for the font scaling.
+		 */
 		// font sizer
 		// get init data
 		WordObject firstWord = words.get(0);
 		double highestCount = firstWord.getCount();
 		double maxFontSize = 150;
-		
+
 		// have diff of first word
-		
+
 		// find out weather a number is higher or lower
 		diff = maxFontSize - highestCount;
 		double newSize = highestCount + diff;
-		
+
 		// now we need to get the percentage diff between the num and max num
 		// we then use that percentage to scale all other
 		// if word one is scaled by 50%, they all should
 		percentDiff = highestCount / maxFontSize;
-		
+
 		// we divide all numbers by the percetDiff
 
 		// log
-		System.out.printf("Font Scaling:\t\thighestCount: %2.3f\t\tdiff: %2.3f\t\tpercentDiff: %2.3f\t\tnewSize: %2.3f\n", highestCount, diff, percentDiff, newSize);
+		System.out.printf(
+				"Font Scaling:\t\thighestCount: %2.3f\t\tdiff: %2.3f\t\tpercentDiff: %2.3f\t\tnewSize: %2.3f\n",
+				highestCount, diff, percentDiff, newSize);
 	}
 
 	private String getFontName() {
+		/**
+		 * Returns a random font name based on the available fonts on the
+		 * system.
+		 */
 		String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 		int index = (int) (Math.random() * (fontNames.length - 1));
 		String fontName = fontNames[index];
@@ -119,6 +138,9 @@ public class WordAnalyser {
 	}
 
 	private Color getColor() {
+		/**
+		 * Returns a random color.
+		 */
 		int red = (int) (Math.random() * 255);
 		int green = (int) (Math.random() * 255);
 		int blue = (int) (Math.random() * 255);

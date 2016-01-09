@@ -1,3 +1,4 @@
+
 package ie.gmit.sw.draw;
 
 import java.awt.*;
@@ -6,10 +7,16 @@ import java.awt.geom.*;
 import java.util.*;
 import javax.swing.*;
 
+/**
+ * Does the actual painting/drawing of the words onto a new JPanel. First
+ * calculates the positions of the words. A Spiral algorithm and randomness is
+ * used to move the words so that they don't touch. There is a maximum number of
+ * tries for the spiral algorithm, then the word is just placed. (needs
+ * improvement)
+ */
+
 public class DisplayGraphics extends JPanel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private int winWidth = 1000;
@@ -53,6 +60,10 @@ public class DisplayGraphics extends JPanel {
 	}
 
 	public void config() {
+		/**
+		 * Configuration details for the frame, action listeners and some
+		 * variables.
+		 */
 		paintCount = 0;
 
 		fr2 = new JFrame("Loading...");
@@ -65,7 +76,7 @@ public class DisplayGraphics extends JPanel {
 		fr2.setResizable(false);
 
 		// opens program centre of screen
-		fr2.setLocationRelativeTo(null);
+		// fr2.setLocationRelativeTo(null);
 
 		fr2.addMouseListener(new MouseListener() {
 
@@ -102,10 +113,16 @@ public class DisplayGraphics extends JPanel {
 	}
 
 	public boolean testIntersection(Shape shapeA, Shape shapeB) {
+		/**
+		 * Tests if there is an intersection.
+		 */
 		return shapeA.getBounds2D().intersects(shapeB.getBounds2D());
 	}
 
 	private Color getColor() {
+		/**
+		 * Returns a random color.
+		 */
 		// get a random colour
 		int red = (int) (Math.random() * 255);
 		int green = (int) (Math.random() * 255);
@@ -116,6 +133,12 @@ public class DisplayGraphics extends JPanel {
 	}
 
 	private void calculateShapes(Graphics g) {
+		/**
+		 * Analyzes each word and chooses its position. This only happens once.
+		 * This is the most CPU intensive part as the spiral algorithm lives
+		 * here and each word runs in a loop of its own to find a free space on
+		 * the JPanel(JFrame).
+		 */
 		// reset shapes list
 		shapes = new ArrayList<Rectangle>();
 
@@ -173,7 +196,7 @@ public class DisplayGraphics extends JPanel {
 			}
 
 			if (shapes.size() == 0) {
-//				System.out.println("shapes.size() == 0");
+				// System.out.println("shapes.size() == 0");
 
 				saveWordPos(x, y, wordObject, g2d);
 				// drawWord(x, y, wordObject, g2d);
@@ -214,18 +237,26 @@ public class DisplayGraphics extends JPanel {
 		} // for each
 
 		// safe guard in case text has less then max words
-		fr2.setTitle("%100 Loaded");
+		fr2.setTitle("100% Loaded");
 	}
 
 	private void updateTitleLoading(int wordCount) {
+		/**
+		 * Updates the title of the JFrame(JPanel) used for drawing, so that the
+		 * user can see the loading percentage.
+		 */
 		double loadPerc;
 		loadPerc = (double) wordCount / (double) maxWords;
-//			System.out.printf("loadPerc: %2.3f", loadPerc);
+		// System.out.printf("loadPerc: %2.3f", loadPerc);
 		int newTitle = (int) Math.round((loadPerc * 100));
-		fr2.setTitle("%" + newTitle + " Loaded");
+		fr2.setTitle(newTitle + "% Loaded");
 	}
 
 	private void AddRandomnessBeforeIntersectLooper() {
+		/**
+		 * Adds big randomness to a words x/y position before the word goes into
+		 * the intersection looper.
+		 */
 		// add randomness to inc before intersection while loop
 		inc = (int) Math.round(inc * 0.8);
 		inc %= 100;
@@ -250,6 +281,12 @@ public class DisplayGraphics extends JPanel {
 	}
 
 	private boolean IntersectionLooper(Area totalArea, boolean intersection, int count) {
+		/**
+		 * Adds small randomness on each iteration. Slowly moves a word around
+		 * in a spiral trying to find a free space on the JPanel. If no space is
+		 * found after the max iterations stated then the word is placed
+		 * wherever the last x/y pos is.
+		 */
 		// while intersection or count has not been reached (250'000 per
 		// word) then continue
 		while (intersection && count <= maxIntersectTries) {
@@ -317,6 +354,11 @@ public class DisplayGraphics extends JPanel {
 	}
 
 	private void randomCoords() {
+		/**
+		 * Chooses random coordinates. Used by the iteration looper for small
+		 * randomness. If the randomness puts the coordinates out of the window
+		 * the positions are reset to left of centre.
+		 */
 		int xRan;
 		int yRan;
 		xRan = winWidth / 4;
@@ -349,6 +391,10 @@ public class DisplayGraphics extends JPanel {
 
 	@Override
 	protected void paintComponent(Graphics g) {
+		/**
+		 * Starts the word calculates off (happens once). Then paints the words
+		 * as needed. This method is called automatically.
+		 */
 		super.paintComponent(g);
 
 		// calculate once
@@ -360,17 +406,20 @@ public class DisplayGraphics extends JPanel {
 
 		// paint infinitely
 		if (paintCount > 0) {
-			if(paintCount == 1)
+			if (paintCount == 1)
 				System.out.println("\nPainting words...");
-				
+
 			paintCount++;
-//			System.out.println("\npaintCount: " + paintCount + "\n");
+			// System.out.println("\npaintCount: " + paintCount + "\n");
 			drawShapes();
 			setBackground(bgColor);
 		}
 	} // paintComponent
 
 	private void drawShapes() {
+		/**
+		 * Draws the words according to the details in the WordObject object.
+		 */
 		int count = 0;
 		for (WordObject wordObject : words) {
 			count++;
@@ -382,6 +431,9 @@ public class DisplayGraphics extends JPanel {
 	}
 
 	private int randomNum(int maximum) {
+		/**
+		 * Creates a random number.
+		 */
 		// creates a random number, plus/minus sign is also random
 		int minimum = 0;
 		Random rn = new Random();

@@ -1,13 +1,22 @@
 package ie.gmit.sw.runner;
 
 import java.awt.event.*;
-import java.io.File;
+import java.io.*;
 import javax.swing.*;
 
 import ie.gmit.sw.draw.DisplayGraphics;
 import ie.gmit.sw.draw.WordAnalyser;
 import ie.gmit.sw.io.DataReader;
 
+//import com.apple.eawt.Application;
+/**
+ * 
+ * A Swing windows system GUI that presents the user with various options. Such
+ * as the max number of words to be processed, the max number of iterations the
+ * intersection checker should process per word and whether to choose a URL or
+ * data as input.
+ *
+ */
 public class WindowSystem {
 	// core
 	private DataReader dr;
@@ -69,6 +78,13 @@ public class WindowSystem {
 	}
 
 	private void config() {
+		/**
+		 * Configuration settings for the frame.
+		 */
+		// set up icon
+		// Image image = new ImageIcon("cloud.png").getImage();
+		// fr.setIconImage(image);
+
 		fr.setSize(winWidth, winHeight);
 		fr.setLayout(null);
 		fr.setVisible(true);
@@ -81,6 +97,9 @@ public class WindowSystem {
 	}
 
 	private void createComps() {
+		/**
+		 * Creates the various GUI components needed.
+		 */
 		// MAX NUM
 		// maxNum tf
 		int tfMwWidth = (int) Math.round(winWidth * .83); // 500;
@@ -99,35 +118,34 @@ public class WindowSystem {
 		lblMaxWords.setBounds(lblMwX, lblMwY, lblMwWidth, lblMwHeight);
 
 		// MAX ITERATIONS
+		// maxNum label
+		int lblMiWidth = 300;
+		int lblMiHeight = 20;
+		int lblMiX = tfMwX + (tfMwWidth - (tfMwWidth *= .90)) + 100;
+		int lblMiY = 50;
+		lblMaxIterations = new JLabel("Max Intersection Checks Per Word:");
+		lblMaxIterations.setBounds(lblMiX, lblMiY, lblMiWidth, lblMiHeight);
+
 		// maxNum tf
-		int tfMiWidth = (int) Math.round(winWidth * .83); // 500;
+		int tfMiWidth = 100; // 500;
 		int tfMiHeight = 20;
-		int tfMiX = ((int) Math.round((winWidth / 2) - tfMiWidth / 2)) + ((tfMwWidth - (tfMwWidth *= .90)) + lblMwX)
-				+ 50;
+		int tfMiX = lblMiX + lblMiWidth - 75;
 		int tfMiY = 50;
 		tfMaxIterations = new JTextField("2500000");
-		tfMaxIterations.setBounds(tfMiX + 100, tfMiY, tfMiWidth - (tfMiWidth *= .85), tfMiHeight);
-
-		// maxNum label
-		int lblMiWidth = 100;
-		int lblMiHeight = 20;
-		int lblMiX = tfMiX;
-		int lblMiY = tfMiY;
-		lblMaxIterations = new JLabel("Max Iterations:");
-		lblMaxIterations.setBounds(lblMiX, lblMiY, lblMiWidth, lblMiHeight);
+		tfMaxIterations.setBounds(tfMiX, tfMiY, tfMiWidth, tfMiHeight);
 
 		// RADIO
 		// url
 		int rbtnWidth = 75;
 		int rbtnHeight = 20;
-		int rbtnX = tfMiX + lblMiWidth + 200;
+		int rbtnX = tfMiX + tfMiWidth + 50;
 		int rbtnY = tfMiY;
 		rbtnChoice = new JRadioButton("Url", true);
 		rbtnChoice.setBounds(rbtnX, rbtnY, rbtnWidth, rbtnHeight);
 		fr.add(rbtnChoice);
 
 		// data
-		int rbtnX2 = rbtnX + 75;
+		int rbtnX2 = rbtnX + 60;
 		int rbtnY2 = tfMiY;
 		rbtnChoice2 = new JRadioButton("Data");
 		rbtnChoice2.setBounds(rbtnX2, rbtnY2, rbtnWidth, rbtnHeight);
@@ -185,6 +203,9 @@ public class WindowSystem {
 	}
 
 	private void addComps() {
+		/**
+		 * Adds the various components to the frame.
+		 */
 		// add
 		fr.add(tfMaxWords);
 		fr.add(lblMaxWords);
@@ -203,6 +224,9 @@ public class WindowSystem {
 	}
 
 	private void setupAL() {
+		/**
+		 * Sets up the Action Listeners.
+		 */
 		// create word cloud button
 		btnCreate.addActionListener(new ActionListener() {
 			@Override

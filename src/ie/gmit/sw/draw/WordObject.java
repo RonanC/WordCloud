@@ -2,6 +2,12 @@ package ie.gmit.sw.draw;
 
 import java.awt.*;
 
+/**
+ * 
+ * Contains all the information for each word. All the font details, coordinates
+ * and the graphics object.
+ *
+ */
 public class WordObject {
 	private String word;
 	private int count;
