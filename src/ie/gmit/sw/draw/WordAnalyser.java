@@ -7,10 +7,21 @@ public class WordAnalyser {
 	// data
 	private TreeMap<String, Integer> sortedWords;
 	private ArrayList<WordObject> words = new ArrayList<WordObject>();
+	private int maxWords;
+	
+	// globals
+	// font sizer
+	double diff, percentDiff;
 
 	public WordAnalyser(TreeMap<String, Integer> sw) {
+		this.maxWords = 50;
 		sortedWords = sw;
+		analyse();
+	}
 
+	public WordAnalyser(TreeMap<String, Integer> sw, int maxWords) {
+		this.maxWords = maxWords;
+		sortedWords = sw;
 		analyse();
 	}
 
@@ -27,46 +38,76 @@ public class WordAnalyser {
 			// System.out.println(key + " => " + value);
 		}
 
-		// int wordCount = words.size();
-
-		// font sizer
-		// WordObject firstWord = words.get(0);
-		// int highestCount = firstWord.getCount();
-
-		double fontMultiplier = .07;
+		// double fontMultiplier = .07;
 
 		// either different font or color
 		Random random = new Random();
-		int max = 2;
+		int max = 1;
 		int min = 0;
 		int choice = random.nextInt(max - min + 1) + min;
 
-		System.out.println("choice: " + choice);
+//		System.out.println("choice: " + choice);
+
+		fontSizer();
 
 		// get default data
 		String fontName = getFontName();
 		Color color = getColor();
 
+		int count = 0;
 		for (WordObject wordObject : words) {
-			int newFontSize = (int) Math.round(wordObject.getCount() / fontMultiplier); // 15
-			wordObject.setFontSize(newFontSize);
+			if (count < maxWords) {
+				count++;
 
-			if (choice == 0) {
-				fontName = getFontName();
-			} else if (choice == 1) {
-				color = getColor();
+				double newFontSize = wordObject.getCount() / percentDiff; // 15
+//				System.out.println("diff: " + diff + "\t\tnewFontSize: " + newFontSize);
+
+				if(newFontSize < 10)
+					newFontSize = 10;
+				
+				wordObject.setFontSize((int) Math.round(newFontSize));
+
+				if (choice == 0) {
+					color = getColor();
+					fontName = getFontName();
+				} else {
+					color = getColor();
+				}
+
+				Font font = new Font(fontName, Font.PLAIN, wordObject.getFontSize());
+				wordObject.setFont(font);
+
+				wordObject.setColor(color);
+
+				// System.out.println(wordObject.toString());
 			} else {
-				fontName = getFontName();
-				color = getColor();
+				break;
 			}
-
-			Font font = new Font(fontName, Font.PLAIN, wordObject.getFontSize());
-			wordObject.setFont(font);
-
-			wordObject.setColor(color);
-
-			// System.out.println(wordObject.toString());
 		}
+	}
+
+	private void fontSizer() {
+		// font sizer
+		// get init data
+		WordObject firstWord = words.get(0);
+		double highestCount = firstWord.getCount();
+		double maxFontSize = 150;
+		
+		// have diff of first word
+		
+		// find out weather a number is higher or lower
+		diff = maxFontSize - highestCount;
+		double newSize = highestCount + diff;
+		
+		// now we need to get the percentage diff between the num and max num
+		// we then use that percentage to scale all other
+		// if word one is scaled by 50%, they all should
+		percentDiff = highestCount / maxFontSize;
+		
+		// we divide all numbers by the percetDiff
+
+		// log
+		System.out.printf("Font Scaling:\t\thighestCount: %2.3f\t\tdiff: %2.3f\t\tpercentDiff: %2.3f\t\tnewSize: %2.3f\n", highestCount, diff, percentDiff, newSize);
 	}
 
 	private String getFontName() {

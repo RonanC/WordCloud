@@ -17,7 +17,7 @@ public class DisplayGraphics extends JPanel {
 	private int midX = winWidth / 2;
 	private int midY = winHeight / 2;
 	private int maxWords;
-	private int maxIntersectTries = 2500000;
+	private int maxIntersectTries;
 	private Color bgColor;
 
 	// data
@@ -28,12 +28,15 @@ public class DisplayGraphics extends JPanel {
 	private int paintCount;
 
 	// spiral/coordinate config
-	int x, y;
-	int direction;
-	int inc, smallInc;
-	Rectangle shape;
-	int wordHeight;
-	int wordWidth;
+	private int x, y;
+	private int direction;
+	private int inc, smallInc;
+	private Rectangle shape;
+	private int wordHeight;
+	private int wordWidth;
+
+	// misc
+	JFrame fr2;
 
 	public DisplayGraphics(ArrayList<WordObject> words) {
 		this.words = words;
@@ -52,7 +55,7 @@ public class DisplayGraphics extends JPanel {
 	public void config() {
 		paintCount = 0;
 
-		JFrame fr2 = new JFrame();
+		fr2 = new JFrame("Loading...");
 		fr2.add(this);
 		fr2.setSize(winWidth + 300, winHeight + 100);
 		// fr2.setLayout(null);
@@ -60,6 +63,9 @@ public class DisplayGraphics extends JPanel {
 
 		// disable screen resize
 		fr2.setResizable(false);
+
+		// opens program centre of screen
+		fr2.setLocationRelativeTo(null);
 
 		fr2.addMouseListener(new MouseListener() {
 
@@ -125,8 +131,10 @@ public class DisplayGraphics extends JPanel {
 		smallInc = inc / 8;
 
 		int wordCount = 0;
+
 		for (WordObject wordObject : words) {
 			wordCount++;
+			updateTitleLoading(wordCount);
 
 			// have a maximum number of words (default is 50)
 			if (wordCount >= maxWords) {
@@ -143,8 +151,8 @@ public class DisplayGraphics extends JPanel {
 			// int wordLen = wordObject.getWord().length();
 
 			// log
-			System.out.println(
-					"wordCount: " + wordCount + "\t\tx: " + x + "\t\ty" + y + "\t\tword: " + wordObject.getWord());
+			System.out.println("wordCount: " + wordCount + "\t\tx: " + x + "\t\ty" + y + "\t\tword: "
+					+ wordObject.getWord() + "\t\tcount: " + wordObject.getCount());
 
 			// // add word
 			// drawnWords.add(g2d);
@@ -165,7 +173,7 @@ public class DisplayGraphics extends JPanel {
 			}
 
 			if (shapes.size() == 0) {
-				System.out.println("shapes.size() == 0");
+//				System.out.println("shapes.size() == 0");
 
 				saveWordPos(x, y, wordObject, g2d);
 				// drawWord(x, y, wordObject, g2d);
@@ -202,8 +210,19 @@ public class DisplayGraphics extends JPanel {
 
 				// add shape to list
 				shapes.add(shape);
-			}
-		}
+			} // if else
+		} // for each
+
+		// safe guard in case text has less then max words
+		fr2.setTitle("%100 Loaded");
+	}
+
+	private void updateTitleLoading(int wordCount) {
+		double loadPerc;
+		loadPerc = (double) wordCount / (double) maxWords;
+//			System.out.printf("loadPerc: %2.3f", loadPerc);
+		int newTitle = (int) Math.round((loadPerc * 100));
+		fr2.setTitle("%" + newTitle + " Loaded");
 	}
 
 	private void AddRandomnessBeforeIntersectLooper() {
@@ -334,15 +353,18 @@ public class DisplayGraphics extends JPanel {
 
 		// calculate once
 		if (paintCount == 0) {
-			System.out.println("Calculating shapes...");
+			System.out.println("\nCalculating shapes...");
 			calculateShapes(g);
 			paintCount++;
 		}
 
 		// paint infinitely
 		if (paintCount > 0) {
+			if(paintCount == 1)
+				System.out.println("\nPainting words...");
+				
 			paintCount++;
-			System.out.println("\npaintCount: " + paintCount + "\n");
+//			System.out.println("\npaintCount: " + paintCount + "\n");
 			drawShapes();
 			setBackground(bgColor);
 		}
