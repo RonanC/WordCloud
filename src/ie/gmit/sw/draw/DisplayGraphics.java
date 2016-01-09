@@ -1,12 +1,12 @@
 package ie.gmit.sw.draw;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.*;
-import java.awt.image.*;
 import java.util.*;
 import javax.swing.*;
 
-public class DisplayGraphics extends JPanel{
+public class DisplayGraphics extends JPanel {
 	/**
 	 * 
 	 */
@@ -16,648 +16,357 @@ public class DisplayGraphics extends JPanel{
 	private int winHeight = 1000;
 	private int midX = winWidth / 2;
 	private int midY = winHeight / 2;
-	
-	// data
-	private TreeMap<String, Integer> sortedWords;
-	private ArrayList<WordObject> words;
-	ArrayList<Graphics2D> drawnWords;
-	ArrayList<Rectangle> shapes;
+	private int maxWords;
+	private int maxIntersectTries = 2500000;
+	private Color bgColor;
 
-	
+	// data
+	private ArrayList<WordObject> words;
+	private ArrayList<Rectangle> shapes;
+
 	// count
 	private int paintCount;
-	
+
+	// spiral/coordinate config
+	int x, y;
+	int direction;
+	int inc, smallInc;
+	Rectangle shape;
+	int wordHeight;
+	int wordWidth;
+
 	public DisplayGraphics(ArrayList<WordObject> words) {
-		drawnWords = new ArrayList<Graphics2D>();
-		
 		this.words = words;
+		this.maxWords = 50;
+		this.maxIntersectTries = 2500000;
+		config();
+	}
+
+	public DisplayGraphics(ArrayList<WordObject> words, int maxWords, int maxIntersectTries) {
+		this.words = words;
+		this.maxWords = maxWords;
+		this.maxIntersectTries = maxIntersectTries;
+		config();
+	}
+
+	public void config() {
 		paintCount = 0;
-		start();
-		
-	}
-	
-	private void createShapes() {
-		int width = 0;
-		int height = 0;
-		
-		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		Graphics2D graphics = (Graphics2D)image.getGraphics();
 
-		//Paint with texturing brush
-		Rectangle2D rect2D = new Rectangle2D.Double(100, 100, width, height);
-		graphics.setPaint(new TexturePaint(image, rect2D));
-		graphics.fill(rect2D);
-
-		//Draw text
-		graphics.drawString("my text goes here", midX, midY);
-	}
-
-	public void start(){
 		JFrame fr2 = new JFrame();
 		fr2.add(this);
 		fr2.setSize(winWidth + 300, winHeight + 100);
-		//fr2.setLayout(null);
+		// fr2.setLayout(null);
 		fr2.setVisible(true);
+
+		// disable screen resize
+		fr2.setResizable(false);
+
+		fr2.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				bgColor = getColor();
+				setBackground(bgColor);
+			}
+		});
 	}
 
-//	public static boolean testIntersection(Shape shapeA, Shape shapeB) {
-//		   Area areaA = new Area(shapeA);
-//		   areaA.intersect(new Area(shapeB));
-//		   return !areaA.isEmpty();
-//		}
-	
 	public boolean testIntersection(Shape shapeA, Shape shapeB) {
-	    return shapeA.getBounds2D().intersects(shapeB.getBounds2D());
+		return shapeA.getBounds2D().intersects(shapeB.getBounds2D());
 	}
-	
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		
-		//createShapes();
+
+	private Color getColor() {
+		// get a random colour
+		int red = (int) (Math.random() * 255);
+		int green = (int) (Math.random() * 255);
+		int blue = (int) (Math.random() * 255);
+		Color color = new Color(red, green, blue);
+
+		return color;
+	}
+
+	private void calculateShapes(Graphics g) {
+		// reset shapes list
 		shapes = new ArrayList<Rectangle>();
-		
-		paintCount++;
-		System.out.println("\npainting: " + paintCount + "\n");
-		setBackground(Color.white);
-		
-//		int xInc = 20; //(int) Math.round(winWidth * .02);
-//		int yInc = 50; //(int) Math.round(winHeight * .02);
-		
-//		int xInc = 100;
-//		int yInc = 25;
-		
-//		int xStart = 50;//(int) Math.round(midX - winWidth * .01);
-//		int yStart  = 150;//(int) Math.round(midY - winHeight * .01);
-		
-//		int x = midX - 200;
-//		int y = midY - 100;
-		
-//		int fontSize = 24;
-		
+
+		// set a random background colour
+		bgColor = getColor();
 		Area totalArea = null;
-		
-		
-		// spiral stuff
-//		int spiral [] [] = new int[1000][1000];
-//		final int N = 200;
-		
-		
-//		int current = 1;
-//		// Start in the corner
-//		int x = midX, y = midY;
-//		int dx = 25, dy = 0;
-		
-		
-		int x = midX, y = midY;
-//		int x = 50, y = 75;
-		int direction = 0;
-		int inc = 10;
-		int smallInc = inc / 8;
-		
-//		int incH = 20;
-//		int incV = 10;
-		
-		
+
+		// spiral/coordinate config
+		x = midX;
+		y = midY;
+		direction = 0;
+		inc = 10;
+		smallInc = inc / 8;
+
+		int wordCount = 0;
 		for (WordObject wordObject : words) {
-//			int x = midX, y = midY;
-			// save area
+			wordCount++;
+
+			// have a maximum number of words (default is 50)
+			if (wordCount >= maxWords) {
+				break;
+			}
+
+			// create new graphics object each time
 			Graphics2D g2d = (Graphics2D) g.create();
-			
+
 			// set pallete
 			g2d.setColor(wordObject.getColor());
 			g2d.setFont(wordObject.getFont());
-			int fontSize = wordObject.getFontSize();
-			int wordLen = wordObject.getWord().length();
-			
-			
-			// spiral init
-//			int current = 1;
-//			// Start in the corner
-//			int x = midX, y = midY;
-//			int dx = 1, dy = 0;
-			
-//			while (current <= N*N) {
-//			    // Go in a straight line
-//			    spiral[x][y] = current++;
-//			    int nx = x + dx, ny = y + dy;
-//			    // When you hit the edge...
-//			    if (nx < 0 || nx == N || ny < 0 || ny == N || spiral[nx][ny] != 0) {
-//			        // ...turn right
-//			        int t = dy;
-//			        dy = dx;
-//			        dx = -t;
-//			    }
-//			    x += dx;
-//			    y += dy;
-//			    g2d.setColor(Color.blue);
-//			    g2d.drawLine(x, y, x+5, y+5);
-//			}
-			
+			// int fontSize = wordObject.getFontSize();
+			// int wordLen = wordObject.getWord().length();
 
-			
+			// log
+			System.out.println(
+					"wordCount: " + wordCount + "\t\tx: " + x + "\t\ty" + y + "\t\tword: " + wordObject.getWord());
 
-//			int fontSizeX = wordObject.getFontSize() * 4;
-			
-//			System.out.println("fontSize: " + fontSize * 3 + "\t\tx: " + x + "\t\txInc: " + (xInc + (fontSize * 2) + (wordLen * 10))  + "\t\ty: " + y + "\t\tyInc: " + (yInc + fontSize) + "\t\twordLen: " + (wordLen * 10) + "\t\tword: " + wordObject.getWord());
-//			System.out.println("fontSize: " + fontSize * 3 + "\t\ty: " + y + "\t\tyInc: " + (yInc + fontSize) );
-			
-			
-			
-//			int x = midX, y = midY;
-//			int x = 50, y = 50;
-			
-//			System.out.println("x: " + x + "\t\ty" + y + "\t\tword: " + wordObject.getWord());
-			
+			// // add word
+			// drawnWords.add(g2d);
 
-			
-			// add word
-			drawnWords.add(g2d);
-//			((Shape) g2d).getBounds2D().intersects(drawnWords.get(0).getClipBounds());
-			
+			// get metrics of font
 			FontMetrics metrics = g2d.getFontMetrics(wordObject.getFont());
-//			System.out.println(metrics.getHeight() + " " + metrics.stringWidth(wordObject.getWord()));
-			
-			int wordHeight = metrics.getHeight();
-			int wordWidth = metrics.stringWidth(wordObject.getWord());
-			
-//			g2d.fillRect(x, y - wordHeight, wordWidth, wordHeight);
-//			g2d.drawRect(x, y - wordHeight / 2, wordWidth, wordHeight / 2);
-			
-			
-			Rectangle shape = new Rectangle(x, y - wordHeight / 2, wordWidth, wordHeight / 2);
-			
-			
-			
-			
-			
-			
-//			for (Rectangle rect : shapes) {
-//				totalArea.add(new Area(rect));
-//			}
-			
-//			Area areaB;
+			wordHeight = metrics.getHeight();
+			wordWidth = metrics.stringWidth(wordObject.getWord());
+
+			// create shape
+			shape = new Rectangle(x, y - wordHeight / 2, wordWidth, wordHeight / 2);
+
+			// set intersection to true (so that is it always checked)
 			boolean intersection = true;
-			
-			if(shapes.size() > 0){
+
+			if (shapes.size() > 0) {
 				intersection = testIntersection(totalArea, shape);
-				
-//				areaA = new Area(shapes.get(0));
-//				areaB = new Area(shape);
-//				areaA.intersect(areaB);
-//				intersection = !areaA.isEmpty();
-				//System.out.println("start-intersection: " + intersection);
 			}
 
-			
-			if(shapes.size() == 0){
+			if (shapes.size() == 0) {
 				System.out.println("shapes.size() == 0");
-			
-				
-				g2d.drawString(wordObject.getWord(), x, y);
-//				g2d.draw(shape);
+
+				saveWordPos(x, y, wordObject, g2d);
+				// drawWord(x, y, wordObject, g2d);
+
+				// g2d.draw(shape);
 				totalArea = new Area(shape);
 				shapes.add(shape);
-			} else if(!intersection){
+			} else if (!intersection) {
 				System.out.println("intersection: " + intersection);
 
-				g2d.drawString(wordObject.getWord(), x, y);
-				g2d.draw(shape);
+				saveWordPos(x, y, wordObject, g2d);
+				// drawWord(x, y, wordObject, g2d);
+
+				// g2d.draw(shape);
 				totalArea.add(new Area(shape));
 				shapes.add(shape);
-			}else{
-				//System.out.println("intersection: " + intersection);
-				
-//				areaA = new Area(shapes.get(0));
-
-				
+			} else {
 				// custom spiral
-				final int MAX_N = 2500000; //winWidth * winHeight;
-				int count = 1; 
-//				boolean goingRight, goingDown, goingLeft, goingUp;
-//				goingRight = true;
-//				goingDown = goingLeft = goingUp = false;
-//				
-//				if(inc >= 20){
-//					inc /= 1.1;
-//					smallInc /= 1.1;
-//				}
-//				else if(inc <= 25){
-//					inc *= 1.1;
-//					smallInc *= 1.1;
-//				}
-				
-				inc = (int) Math.round(inc * 0.8);
-//				inc = (int) Math.round(incV * 0.8);
-//				inc = (int) Math.round(inc * 1.1);
+				// final int MAX_N = 2500000; // winWidth * winHeight;
+				int count = 1;
 
-				
-				inc %= 100;
-//				inc %= 100;
-						
-				
-				// between -90 and 90
+				// adds randomness to co-ords before looper on word begins
+				AddRandomnessBeforeIntersectLooper();
 
-				
-				
-				
-				
-				
-//				int incR, incL, incU, incD;
-//				incR = 30;
-//				incL = 20;
-//				incU = 20;
-//				incD = 20;
-				
-				
-				int xRan = winWidth;
-				int yRan = winHeight;
-				
-			    x += randomNum(xRan);
-			    y += randomNum(yRan);
-				
-//				while(x <= 50){
-//					x += randomNum(xRan);
-//				}
-//				
-//				while(y <= 75){
-//					y += randomNum(yRan);
-//				}
-				
+				// loops each word max number of times trying to find a place
+				// where it does not touch other words
+				intersection = IntersectionLooper(totalArea, intersection, count);
 
-//			    System.out.println("x: " + x + "\t\ty: " + y);
-				if(x > winWidth - 50 || x < 50){
-					x = midX;
-				}
-				
-				if(y > winHeight - 50 || y < 50){
-					y = midY;
-				}
-//				
-				while(intersection && count <= MAX_N){ // && current <= N*N
-					
-//					inc = (int) Math.round(inc * 1.5);
-					
-//					System.out.println("before intersection: " + intersection);
-			
-//					while (current <= N*N && intersection) {
-//					    // Go in a straight line
-//			    	if(x < 0){
-//				        x = 1;
-//			    	}
-					
-					
-//					    spiral[x][y] = current++;
-//					    int nx = x + dx, ny = y + dy;
-//					    // When you hit the edge...
-//					    if (nx < 0 || nx == N || ny < 0 || ny == N || spiral[nx][ny] != 0) {
-//					        // ...turn right
-//					        int t = dy;
-//					        dy = dx;
-//					        dx = -t;
-//					    	
-//					        // turn on y
-////					        int t = dx;
-////					        dx = dy;
-////					        dy = -t;
-//
-//					    }
-//					    x += dx*2;
-//					    y += dy*2;
-					    
-					
-					count++;
-					
-					
-					
-					// 0 = r
-					// 1 = d
-					// 2 = l
-					// 3 = u
-					
-					switch (direction) {
-					case 0: // r
-						if(x >= winWidth){
-							direction = 1;
-						}
-						else{
-							x += inc;
-							y += smallInc;
-						}
-						break;
-						
-					case 1: // d
-						if(y >= winHeight - 50){
-							direction = 2;
-						}else{
-							y += inc;
-							x -= smallInc;
-						}
-						break;
-						
-					case 2: // l
-						if(x <= 50){
-							direction = 3;
-						}
-						else{
-							x -= inc;
-							y -= smallInc;
-						}
-						break;
-						
-					case 3: // u
-						if(y <= 50){
-							direction = 0;
-						}
-						else{
-							y -= inc;
-							x += smallInc;
-						}
-						break;
+				saveWordPos(x, y, wordObject, g2d);
+				// drawWord(x, y, wordObject, g2d);
 
-					default:
-						break;
-					}
-					
-//					if(goingRight){
-//
-//						
-//						if(x >= winWidth){
-//							goingRight = false;
-//							goingDown = true;
-//						}
-//						else{
-//							x += incR;
-////							y += smallInc;
-//						}
-//						
-//					} else if(goingDown){
-//						if(y >= winHeight - 50){
-//							goingDown = false;
-//							goingLeft = true;
-//						}else{
-//							y += incD;
-////							x -= smallInc;
-//						}
-//						
-//					} else if(goingLeft){
-//						if(x <= 50){
-//							goingLeft = false;
-//							goingUp = true;
-//						}
-//						else{
-//							x -= incL;
-////							y -= smallInc;
-//						}
-//						
-//
-//					} else if(goingUp){
-//
-//						
-//						if(y <= 50){
-//							goingUp = false;
-//							goingRight = true;
-//						}
-//						else{
-//							y -= incU;
-////							x += smallInc;
-//						}
-//						
-//
-//					}
-					// RANDOM
-					
-					if(count % 2 == 0){
-						
-					
-						xRan = winWidth / 4;
-						yRan = winHeight / 4;
-						
-					    x += randomNum(xRan);
-					    y += randomNum(yRan);
-//					    System.out.println("x: " + x + "\t\ty: " + y);
-						if(x > winWidth || x < 0){
-							x = midX;
-						}
-						
-						if(y > winHeight || y < 0){
-							y = midY;
-						}
-					}
-						
-					    		
-						shape = new Rectangle(x, y - wordHeight / 2, wordWidth, wordHeight / 2);
-						
-						intersection = testIntersection(totalArea, shape);
-						
-						if(!intersection){
-							if(shape.x + wordWidth >= winWidth){
-								intersection = true;
-							}
-						}
-						
-//						System.out.print("intersection: " + intersection + "\t\tx: " + x + "\t\ty: " + y + "\t\tword: " + wordObject.getWord());
-//						System.out.print("\t\tcount: " + count + "\t\t\t\t");
-					}
-//					areaB = new Area(shape);
-//					areaA.intersect(areaB);
-					// area a now contains the intersection, if it is empty then there is no intersection
-//					intersection = !areaA.isEmpty();
-//					System.out.println("after intersection: " + intersection);
-//				}
-				AffineTransform at = g2d.getTransform();
-				
-//				g2d.rotate(randomNum);
-				g2d.drawString(wordObject.getWord(), x, y);
-				System.out.println("x: " + x + "\t\ty" + y + "\t\tword: " + wordObject.getWord());
-//				g2d.draw(shape);
+				// add area of shape (same area as string) to the total area
 				totalArea.add(new Area(shape));
+
+				// add shape to list
 				shapes.add(shape);
 			}
-			
-
-			
-			
-//			if(shapes.size() == 0){
-//				System.out.println("shapes.size() == 0");
-//				
-//				g2d.drawString(wordObject.getWord(), x, y);
-//				shapes.add(shape);
-//			} else if(!shapes.get(0).intersects(shape) && !shapes.get(0).contains(shape)){
-//				System.out.println("!shapes.get(0).intersects(shape) && !shapes.get(0).contains(shape)");
-//
-//				g2d.drawString(wordObject.getWord(), x, y);
-//				shapes.add(shape);
-//			}else{
-//				System.out.println("intersecting");
-//				
-//				while(shapes.get(0).intersects(shape) || shapes.get(0).contains(shape)){
-//					System.out.println("x: " + x + "\t\ty: " + y);
-//					x += xInc;
-//					y += yInc;
-//					shape = new Rectangle(x, y - wordHeight / 2, wordWidth, wordHeight / 2);
-//				}
-//				g2d.drawString(wordObject.getWord(), x, y);
-//				shapes.add(shape);
-//			}
-			
-			
-			
-
-			
-//			g2d.draw(new Line2D.Double(midX, midY, x, y));
-//			g2d.draw(new Rectangle(x, y, midX, midY));
-			
-//			if(g2d.getClipBounds().intersects(drawnWords.get(0).getClipBounds())){
-//				while(g2d.getClipBounds().intersects(drawnWords.get(0).getClipBounds())){
-//					x += xInc * 5;
-//					y += yInc * 5;
-//				}
-			
-//				g2d.drawString(wordObject.getWord(), x, y);
-//			}
-//			else{
-//				g2d.drawString(wordObject.getWord(), x, y);
-//			}
-			
-			
-			
-//			g2d.getBounds2D().intersects(drawnWords.get(0).getClipBounds());
-			
-//			((Shape) drawnWords.get(0)).getBounds2D().intersects(g2d.getClipBounds());
-			
-//			g.
-//			Shape shape = new ;
-//			Area area = new Area(s);
-//			
-//			area.intersects(r);
-			
-			// draw it 
-//			if(!drawnWords.get(0).hit(g2d.getClipRect(), null, true)){
-				
-//			}
-			
-
-			//if(x < winWidth - (x + (wordObject.getWord().length() * wordObject.getFontSize())) / 2){
-
-				
-			
-//			if(y > (winHeight - yStart) || y > (y + fontSize / 2)){
-//				y = fontSizeY;
-//			}else{
-//				y += fontSize / 2;
-//			}
-				
-			
-			
-			// incrementor
-//			if(x + fontSize * 3 + xInc < winWidth){
-//				x += xInc + (fontSize * 3) + (wordLen * 10);
-//			}else{
-//				x = xStart;
-//				y += yInc + fontSize;
-//			}
-//			
-//			if(y > winHeight){
-//				y = yStart;
-//			}
-			
 		}
-		
-		
-		
+	}
+
+	private void AddRandomnessBeforeIntersectLooper() {
+		// add randomness to inc before intersection while loop
+		inc = (int) Math.round(inc * 0.8);
+		inc %= 100;
+
+		int xRan = winWidth;
+		int yRan = winHeight;
+
+		x += randomNum(xRan);
+		y += randomNum(yRan);
+
+		// log
+		// System.out.println("x: " + x + "\t\ty: " + y);
+
+		// reset x and/or y to middle if out of bounds
+		if (x > winWidth - 50 || x < 50) {
+			x = midX;
+		}
+
+		if (y > winHeight - 50 || y < 50) {
+			y = midY;
+		}
+	}
+
+	private boolean IntersectionLooper(Area totalArea, boolean intersection, int count) {
+		// while intersection or count has not been reached (250'000 per
+		// word) then continue
+		while (intersection && count <= maxIntersectTries) {
+			count++;
+
+			// Spiral Algorithm
+			switch (direction) {
+			case 0: // r
+				if (x >= winWidth) {
+					direction = 1;
+				} else {
+					x += inc;
+					y += smallInc;
+				}
+				break;
+
+			case 1: // d
+				if (y >= winHeight - 50) {
+					direction = 2;
+				} else {
+					y += inc;
+					x -= smallInc;
+				}
+				break;
+
+			case 2: // l
+				if (x <= 50) {
+					direction = 3;
+				} else {
+					x -= inc;
+					y -= smallInc;
+				}
+				break;
+
+			case 3: // u
+				if (y <= 50) {
+					direction = 0;
+				} else {
+					y -= inc;
+					x += smallInc;
+				}
+				break;
+
+			default:
+				break;
+			}
+
+			// add randomness per intersection every second count
+			if (count % 2 == 0) {
+
+				randomCoords();
+			}
+
+			shape = new Rectangle(x, y - wordHeight / 2, wordWidth, wordHeight / 2);
+
+			intersection = testIntersection(totalArea, shape);
+
+			if (!intersection) {
+				if (shape.x + wordWidth >= winWidth) {
+					intersection = true;
+				}
+			}
+		}
+		return intersection;
+	}
+
+	private void randomCoords() {
+		int xRan;
+		int yRan;
+		xRan = winWidth / 4;
+		yRan = winHeight / 4;
+
+		x += randomNum(xRan);
+		y += randomNum(yRan);
+
+		// log
+		// System.out.println("x: " + x + "\t\ty: " + y);
+		if (x > winWidth - 60 || x < 0 + 20 || x > (x + wordWidth + 20)) {
+			x = midX - 300;
+		}
+
+		if (y > winHeight - 20 || y < 0 + 80) {
+			y = midY;
+		}
+	}
+
+	private void drawWord(int x, int y, WordObject wordObject, Graphics2D g2d) {
+		Graphics2D graphics2d = wordObject.getGraphics2d();
+		graphics2d.drawString(wordObject.getWord(), wordObject.getX(), wordObject.getY());
+	}
+
+	private void saveWordPos(int x, int y, WordObject wordObject, Graphics2D g2d) {
+		wordObject.setGraphics2d(g2d);
+		wordObject.setX(x);
+		wordObject.setY(y);
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+		// calculate once
+		if (paintCount == 0) {
+			System.out.println("Calculating shapes...");
+			calculateShapes(g);
+			paintCount++;
+		}
+
+		// paint infinitely
+		if (paintCount > 0) {
+			paintCount++;
+			System.out.println("\npaintCount: " + paintCount + "\n");
+			drawShapes();
+			setBackground(bgColor);
+		}
+	} // paintComponent
+
+	private void drawShapes() {
+		int count = 0;
+		for (WordObject wordObject : words) {
+			count++;
+			if (count < maxWords) {
+				drawWord(wordObject.getX(), wordObject.getY(), wordObject, wordObject.getGraphics2d());
+				// System.out.println(wordObject.toString());
+			}
+		}
 	}
 
 	private int randomNum(int maximum) {
+		// creates a random number, plus/minus sign is also random
 		int minimum = 0;
 		Random rn = new Random();
 		int n = maximum - minimum + 1;
 		int i = rn.nextInt() % n;
-		int randomNum =  minimum + i;
-//		System.out.println("ranNum: " + randomNum);
+		int randomNum = minimum + i;
+		// System.out.println("ranNum: " + randomNum);
 		return randomNum;
-	}
-
-//	public void paint(Graphics g){
-//		paintCount++;
-//		System.out.println("\npainting: " + paintCount + "\n");
-//		setBackground(Color.white);
-//		
-////		int xInc = 20; //(int) Math.round(winWidth * .02);
-////		int yInc = 50; //(int) Math.round(winHeight * .02);
-//		
-//		int xInc = 100;
-//		int yInc = 25;
-//		
-//		int xStart = 50;//(int) Math.round(midX - winWidth * .01);
-//		int yStart  = 150;//(int) Math.round(midY - winHeight * .01);
-//		
-//		int x = midX - 200;
-//		int y = midY - 100;
-//		
-////		int fontSize = 24;
-//		
-//		for (WordObject wordObject : words) {
-//			// save area
-//			Graphics2D g2d = (Graphics2D) g.create();
-//			
-//			int fontSize = wordObject.getFontSize();
-//			int wordLen = wordObject.getWord().length();
-////			int fontSizeX = wordObject.getFontSize() * 4;
-//			
-//			System.out.println("fontSize: " + fontSize * 3 + "\t\tx: " + x + "\t\txInc: " + (xInc + (fontSize * 2) + (wordLen * 10)) + "\t\twordLen: " + (wordLen * 10));
-////			System.out.println("fontSize: " + fontSize * 3 + "\t\ty: " + y + "\t\tyInc: " + (yInc + fontSize) );
-//
-//			
-//			g2d.setColor(wordObject.getColor());
-//			g2d.setFont(wordObject.getFont());
-//			
-//			// add word
-//			drawnWords.add(g2d);
-//			
-////			g.
-////			Shape shape = new ;
-////			Area area = new Area(s);
-////			
-////			area.intersects(r);
-//			
-//			// draw it 
-//			if(!drawnWords.get(0).hit(g2d.getClipRect(), null, true)){
-//				g2d.drawString(wordObject.getWord(), x, y);
-//			}
-//			
-//
-//			//if(x < winWidth - (x + (wordObject.getWord().length() * wordObject.getFontSize())) / 2){
-//			if(x + fontSize * 3 + xInc < winWidth){
-//				x += xInc + (fontSize * 3) + (wordLen * 10);
-//			}else{
-////				System.out.println("newLine");
-//				x = xStart;
-//				y += yInc + fontSize;
-//			}
-//			
-//				
-//			
-////			if(y > (winHeight - yStart) || y > (y + fontSize / 2)){
-////				y = fontSizeY;
-////			}else{
-////				y += fontSize / 2;
-////			}
-//				
-//				if(y > winHeight){
-//					y = yStart;
-////					y += yInc;
-////				}else{
-////					y = yStart;
-//				}
-//			
-//		}
-//		
-//		
-//	}
-	
-//	public static void main(String[] args) {
-//		DisplayGraphics dg = new DisplayGraphics();
-//
-//	}
-}
+	} // randomNum
+} // class

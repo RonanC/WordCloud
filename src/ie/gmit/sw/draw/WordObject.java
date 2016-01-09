@@ -1,22 +1,26 @@
 package ie.gmit.sw.draw;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
 public class WordObject {
 	private String word;
 	private int count;
-	
+
 	private int fontSize;
 	private Color color;
 	private Font font;
+
+	// on canvas
+	private Graphics2D graphics2d;
+	private int x;
+	private int y;
 
 	public WordObject(String word, int count) {
 		super();
 		this.word = word;
 		this.count = count;
 	}
-	
+
 	public WordObject(String word, int count, int fontSize, Color color, Font font) {
 		super();
 		this.word = word;
@@ -25,7 +29,7 @@ public class WordObject {
 		this.color = color;
 		this.font = font;
 	}
-	
+
 	public String getWord() {
 		return word;
 	}
@@ -66,11 +70,34 @@ public class WordObject {
 		this.font = font;
 	}
 
+	public Graphics2D getGraphics2d() {
+		return graphics2d;
+	}
+
+	public void setGraphics2d(Graphics2D graphics2d) {
+		this.graphics2d = graphics2d;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
 	@Override
 	public String toString() {
 		return "WordObject [word=" + word + ", count=" + count + ", fontSize=" + fontSize + ", color=" + color
-				+ ", font=" + font + "]";
+				+ ", font=" + font + ", graphics2d=" + graphics2d + ", x=" + x + ", y=" + y + "]";
 	}
-	
-	
+
 }
