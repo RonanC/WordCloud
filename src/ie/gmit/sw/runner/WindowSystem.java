@@ -3,10 +3,8 @@ package ie.gmit.sw.runner;
 import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
-
-import ie.gmit.sw.draw.DisplayGraphics;
-import ie.gmit.sw.draw.WordAnalyser;
-import ie.gmit.sw.io.DataReader;
+import ie.gmit.sw.draw.GraphicsProcessor;
+import ie.gmit.sw.io.DataProcessor;
 
 //import com.apple.eawt.Application;
 /**
@@ -19,9 +17,8 @@ import ie.gmit.sw.io.DataReader;
  */
 public class WindowSystem {
 	// core
-	private DataReader dr;
-	private WordAnalyser wa;
-	private DisplayGraphics dg;
+	private DataProcessor dataProcessor;
+	private GraphicsProcessor graphicsProcessor;
 
 	// basic
 	private JFrame fr;
@@ -60,8 +57,9 @@ public class WindowSystem {
 	}
 
 	public WindowSystem() {
-		// cmd
-		dr = new DataReader();
+		// processors
+		dataProcessor = new DataProcessor();
+		graphicsProcessor = new GraphicsProcessor();
 
 		// swing
 		String applicationTitle = "Word Cloud - Ronan Connolly - 2016 ©";
@@ -162,7 +160,7 @@ public class WindowSystem {
 		int tfHeight = 20;
 		int tfX = (int) Math.round((winWidth / 2) - tfWidth / 2);
 		int tfY = tfMwY + 35;
-		tfUrl = new JTextField("http://www.gutenberg.org/files/1661/1661-h/1661-h.htm");
+		tfUrl = new JTextField("https://en.wikipedia.org/wiki/Foundation_series");
 		tfUrl.setBounds(tfX + 50, tfY, tfWidth - 50, tfHeight);
 
 		// url label
@@ -246,37 +244,41 @@ public class WindowSystem {
 					tfMaxIterations.setText("2500000");
 					JOptionPane.showMessageDialog(null,
 							"Invalid Max Iteration, default set to 2500000 \nError: " + nfe);
-					maxWords = 2500000;
+					maxIterations = 2500000;
 				}
 
+				// log
 				System.out.println("Chosen:\t\tmaxWords: " + maxWords + "\t\tmaxIterations: " + maxIterations);
-				// reset words and counts
-				dr.clearValidWords();
 
+				// reset words and counts
+				dataProcessor.clearValidWords();
+
+				// get url
 				url = tfUrl.getText();
 
 				if (choice == 0) {
 					// url
 					try {
-						dr.urlReader(url);
-
-						wa = new WordAnalyser(dr.getSortedWords(), maxWords);
-						setDg(new DisplayGraphics(wa.getWords(), maxWords, maxIterations));
+						dataProcessor.urlReader(url);
+						processGraphics();
 					} catch (Exception e1) {
 						JOptionPane.showMessageDialog(null, "Invalid url: " + url + "\nError: " + e1);
 					}
 				} else {
 					// file
 					try {
-						dr.fileReader(selectedFile.getAbsolutePath());
-
-						wa = new WordAnalyser(dr.getSortedWords(), maxWords);
-						setDg(new DisplayGraphics(wa.getWords(), maxWords, maxIterations));
+						dataProcessor.fileReader(selectedFile.getAbsolutePath());
+						processGraphics();
 					} catch (Exception e2) {
 						JOptionPane.showMessageDialog(null, "Invalid data file. " + "\nError: " + e2);
 					}
 
 				}
+			}
+
+			private void processGraphics() {
+				graphicsProcessor.process(dataProcessor.getSortedWords(), maxWords, maxIterations);
+				graphicsProcessor.displayGraphics();
 			}
 
 		});
@@ -332,13 +334,5 @@ public class WindowSystem {
 
 			}
 		});
-	}
-
-	public DisplayGraphics getDg() {
-		return dg;
-	}
-
-	public void setDg(DisplayGraphics dg) {
-		this.dg = dg;
 	}
 }

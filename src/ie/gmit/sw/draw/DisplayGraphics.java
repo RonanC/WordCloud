@@ -72,7 +72,7 @@ public class DisplayGraphics extends JPanel {
 
 		// disable screen resize
 		fr2.setResizable(false);
-
+		
 		// opens program centre of screen
 		// fr2.setLocationRelativeTo(null);
 

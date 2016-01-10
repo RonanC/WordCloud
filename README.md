@@ -75,7 +75,7 @@ Finally run the script
 
 7 - References
 ---
-- JSoup (http://jsoup.org/
+- JSoup (http://jsoup.org/)
 - Oracle Java 2D Graphics Tutorial (https://docs.oracle.com/javase/tutorial/2d/)
 
 
