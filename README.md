@@ -102,20 +102,29 @@ Finally run the script
 - You can take a screenshot if you wish to save (there are permission issues when writing locally via Java)
 
 
-6 - Future Features
+6 - UML
+---
+*Follows OMG UML 2.0 specification*
+###Wordcloud Class Diagram
+![Wordcloud Class Diagram](https://github.com/RonanC/WordCloud/blob/master/src/ie/gmit/sw/uml/WordcloudClassDiagram.png)
+
+###Test Class Diagram
+![Test Class Diagram](https://github.com/RonanC/WordCloud/blob/master/src/ie/gmit/sw/uml/WordcloudTestClassDiagram.png)
+
+7 - Future Features
 ---
 - Implement program (jar) as an applet in a website (java web project).
 - Update spiral algorithm.
 
 
-7 - References
+8 - References
 ---
 - JSoup (http://jsoup.org/)
 - Oracle Java 2D Graphics Tutorial (https://docs.oracle.com/javase/tutorial/2d/)
 - Object Aid - UML OMG 2.0 - Class Diagram Intro (http://www.objectaid.com/class-diagram)
 
 
-8 - Team
+9 - Team
 ---
 This project was created for the OOP module in GMIT during semester one of fourth year Software Development for Dr. John Healy (lecturer).
 
