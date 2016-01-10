@@ -47,14 +47,8 @@ public class WindowSystem {
 	// data
 	private int maxWords;
 	private int maxIterations;
-
-	// data
 	private String url;
 	int choice; // 0 or 1, url or data
-
-	public String getUrl() {
-		return url;
-	}
 
 	public WindowSystem() {
 		// processors

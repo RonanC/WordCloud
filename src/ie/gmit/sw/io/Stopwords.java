@@ -9,10 +9,11 @@ public class Stopwords {
 	// stop words
 	private int stopWordsFound;
 	private String stopWordsFileName;
-	private TreeSet<String> stopWords = new TreeSet<String>();
+	private TreeSet<String> stopWords;
 	
 	public Stopwords(String dataLocation) {
 		this.stopWordsFileName = dataLocation;
+		stopWords = new TreeSet<String>();
 	}
 	
 	/**

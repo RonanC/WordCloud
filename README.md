@@ -68,6 +68,7 @@ I feel that the algorithm creates a nice cloud of words, even if some overlap.
 - Eclipse Mars (Version: Mars.1 Release (4.5.1))
 - Jsoup Jar (jsoup-1.8.3.jar core library)
 - Mac OSX El Capitan (Version 10.11.2)
+- Object Aid [Eclipse Plugin] (OMG UML 2.0 standard)
 
 
 4 - Installation
@@ -91,6 +92,7 @@ Finally run the script
 
 ###Dependencies  
 - Jsoup (http://jsoup.org/)
+- Junit4 (http://search.maven.org/#search|gav|1|g:"junit" AND a:"junit")
 
 
 5 - Use
@@ -110,6 +112,7 @@ Finally run the script
 ---
 - JSoup (http://jsoup.org/)
 - Oracle Java 2D Graphics Tutorial (https://docs.oracle.com/javase/tutorial/2d/)
+- Object Aid - UML OMG 2.0 - Class Diagram Intro (http://www.objectaid.com/class-diagram)
 
 
 8 - Team

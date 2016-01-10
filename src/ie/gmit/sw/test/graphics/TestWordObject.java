@@ -1,7 +1,8 @@
-package ie.gmit.sw.testGraphics;
+package ie.gmit.sw.test.graphics;
 
 import org.junit.*;
 import ie.gmit.sw.graphics.WordObject;
+
 
 import static org.junit.Assert.*;
 
@@ -9,6 +10,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+
+
 
 /** 
  * @author Ronan

@@ -13,5 +13,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/Library/Java/Extensions/junit-4.10.jar"/>
+	<classpathentry kind="lib" path="/Users/Ronan/Java/Extensions/junit-4.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

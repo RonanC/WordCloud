@@ -1,4 +1,4 @@
-package ie.gmit.sw.testGraphics;
+package ie.gmit.sw.test.graphics;
 
 import org.junit.*;
 import ie.gmit.sw.graphics.GraphicsProcessor;
