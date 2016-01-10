@@ -1,5 +1,5 @@
 
-package ie.gmit.sw.draw;
+package ie.gmit.sw.graphics;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -61,7 +61,7 @@ public class DisplayGraphics extends JPanel {
 	/**
 	 * Configuration details for the frame, action listeners and some variables.
 	 */
-	public void config() {
+	private void config() {
 		paintCount = 0;
 
 		fr2 = new JFrame("Loading...");
@@ -119,7 +119,7 @@ public class DisplayGraphics extends JPanel {
 	 *            This is the objects to be checked against the total Area.
 	 * @return if the two areas intersect then true will be returned.
 	 */
-	public boolean testIntersection(Shape shapeA, Shape shapeB) {
+	private boolean testIntersection(Shape shapeA, Shape shapeB) {
 
 		return shapeA.getBounds2D().intersects(shapeB.getBounds2D());
 	}

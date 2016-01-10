@@ -27,9 +27,40 @@ Inspiration from [Jonathan Feinberg](http://mrfeinberg.com/), the creator of [Wo
 2 - Structure
 ---
 ###Packages
+- ie.gmit.sw.graphics
 - ie.gmit.sw.io
-- ie.gmit.sw.draw
 - ie.gmit.sw.runner
+- ie.gmit.sw.testGraphics
+- ie.gmit.sw.testIO
+- ie.gmit.sw.testRunner
+
+###Design Patterns
+- Singleton
+- Factory
+
+I created a DataReader factory that produces either Url or File DataReaders.
+This factory is a singleton.
+
+###Interface
+I created a Gui using Swing components.
+The GUI has various options and validation.
+When the user presses the "Create Wordcloud" button, it opens a new Gui which is drawn on with the Java Graphics2D API.
+
+###JUnit Tests
+I have a test class for most classes.
+I have a test suite for each package.
+I have a test suite that contains the 3 test suites (for the packages).
+
+###Spiral Algorithm
+I created my own spiral algorithm.
+Where the word starts in the center (x/y coordinates) and moves to the right with a slight curve down.
+It continues this motion until a free space is found.
+
+Randomness is added to move the spiral off course which helps as one spiral will just keep repeating itself.
+The default max time to check each words is 2.5 million times.
+The algorithm is inefficient in that half the time a word cannot find a free space and is placed at the last x/y coordinates checked.
+
+I feel that the algorithm creates a nice cloud of words, even if some overlap.
 
 
 3 - Tools & Environment used
@@ -61,7 +92,8 @@ Finally run the script
 ###Dependencies  
 - Jsoup (http://jsoup.org/)
 
-6 - Use
+
+5 - Use
 ---
 - Either enter a filename or a url
 - A wordcloud will be draw in front of you
@@ -71,13 +103,13 @@ Finally run the script
 6 - Future Features
 ---
 - Implement program (jar) as an applet in a website (java web project).
+- Update spiral algorithm.
 
 
 7 - References
 ---
 - JSoup (http://jsoup.org/)
 - Oracle Java 2D Graphics Tutorial (https://docs.oracle.com/javase/tutorial/2d/)
-
 
 
 8 - Team

@@ -1,4 +1,4 @@
-package ie.gmit.sw.draw;
+package ie.gmit.sw.graphics;
 
 import java.util.TreeMap;
 
@@ -15,7 +15,7 @@ public class GraphicsProcessor {
 		analyseWords();
 	}
 	
-	public void analyseWords(){
+	private void analyseWords(){
 		wordAnalyser = new WordAnalyser(sortedWords, maxWords);
 	}
 	

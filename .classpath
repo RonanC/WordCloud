@@ -12,5 +12,6 @@
 			<attribute name="javadoc_location" value="jar:file:/Users/Ronan/Java/jsoup/jsoup-1.8.3-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Library/Java/Extensions/junit-4.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

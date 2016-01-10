@@ -3,10 +3,10 @@ package ie.gmit.sw.runner;
 import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
-import ie.gmit.sw.draw.GraphicsProcessor;
+
+import ie.gmit.sw.graphics.GraphicsProcessor;
 import ie.gmit.sw.io.DataProcessor;
 
-//import com.apple.eawt.Application;
 /**
  * 
  * A Swing windows system GUI that presents the user with various options. Such
@@ -61,7 +61,7 @@ public class WindowSystem {
 		dataProcessor = new DataProcessor();
 		graphicsProcessor = new GraphicsProcessor();
 
-		// swing
+		// swing title
 		String applicationTitle = "Word Cloud - Ronan Connolly - 2016 ©";
 
 		// config
@@ -89,7 +89,7 @@ public class WindowSystem {
 		fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fr.setResizable(false);
 
-		// opens program centre of screen
+		// opens program center of screen
 		fr.setLocationRelativeTo(null);
 
 	}
@@ -230,6 +230,8 @@ public class WindowSystem {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
+
+				
 				try {
 					maxWords = Integer.parseInt(tfMaxWords.getText());
 				} catch (NumberFormatException nfe) {
@@ -237,6 +239,8 @@ public class WindowSystem {
 					JOptionPane.showMessageDialog(null, "Invalid Max Words, default set to 50 \nError: " + nfe);
 					maxWords = 50;
 				}
+				
+//				maxWordsBounds();
 
 				try {
 					maxIterations = Integer.parseInt(tfMaxIterations.getText());
@@ -275,6 +279,16 @@ public class WindowSystem {
 
 				}
 			}
+
+//			private void maxWordsBounds() {
+//				// we are keeping max words within the bounds of 3 to 1000
+//				if(maxWords < 3){
+//					maxWords = 3;
+//				}
+//				else if (maxWords > 1000){
+//					maxWords = 1000;
+//				}
+//			}
 
 			private void processGraphics() {
 				graphicsProcessor.process(dataProcessor.getSortedWords(), maxWords, maxIterations);

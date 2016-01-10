@@ -1,4 +1,4 @@
-package ie.gmit.sw.draw;
+package ie.gmit.sw.graphics;
 
 import java.awt.*;
 import java.util.*;

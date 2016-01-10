@@ -11,8 +11,6 @@ package ie.gmit.sw.runner;
  * @since 2015-01-09
  */
 public class WordCloudRunner {
-	static WindowSystem ws;
-
 	/**
 	 * creates a new WindowSystem object.
 	 * 
@@ -20,9 +18,6 @@ public class WordCloudRunner {
 	 *            The default input arguments, unused for this program.
 	 */
 	public static void main(String[] args) {
-		// String inputDataFileName = "oopAss.txt";
-		// String inputDataUrlname = "http://www.ronanconnolly.ie/";
-
-		ws = new WindowSystem();
+		new WindowSystem();
 	}
 }
