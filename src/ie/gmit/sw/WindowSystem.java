@@ -5,7 +5,8 @@ import java.io.*;
 import javax.swing.*;
 
 import ie.gmit.sw.graphics.GraphicsProcessor;
-import ie.gmit.sw.io.DataProcessor;
+import ie.gmit.sw.io.DataProcesser;
+import ie.gmit.sw.io.DataProcess;
 
 /**
  * 
@@ -17,7 +18,7 @@ import ie.gmit.sw.io.DataProcessor;
  */
 public class WindowSystem {
 	// core
-	private DataProcessor dataProcessor;
+	private DataProcesser dataProcessor;
 	private GraphicsProcessor graphicsProcessor;
 
 	// basic
@@ -31,8 +32,8 @@ public class WindowSystem {
 	// more
 	private JLabel lblMaxWords;
 	private JTextField tfMaxWords;
-	private JLabel lblMaxIterations;
-	private JTextField tfMaxIterations;
+	private JLabel lblFontSize;
+	private JTextField tfMaxFontSize;
 
 	// Radio
 	private JRadioButton rbtnChoice;
@@ -46,7 +47,7 @@ public class WindowSystem {
 
 	// data
 	private int maxWords;
-	private int maxIterations;
+	private int maxFontSize;
 	private String url;
 	int choice; // 0 or 1, url or data
 
@@ -55,7 +56,7 @@ public class WindowSystem {
 	 */
 	public WindowSystem() {
 		// processors
-		dataProcessor = new DataProcessor();
+		dataProcessor = new DataProcess();
 		graphicsProcessor = new GraphicsProcessor();
 
 		// swing title
@@ -114,20 +115,20 @@ public class WindowSystem {
 
 		// MAX ITERATIONS
 		// maxNum label
-		int lblMiWidth = 300;
+		int lblMiWidth = 140;
 		int lblMiHeight = 20;
 		int lblMiX = tfMwX + (tfMwWidth - (tfMwWidth *= .90)) + 100;
 		int lblMiY = 50;
-		lblMaxIterations = new JLabel("Max Intersection Checks Per Word:");
-		lblMaxIterations.setBounds(lblMiX, lblMiY, lblMiWidth, lblMiHeight);
+		lblFontSize = new JLabel("Max Font:");
+		lblFontSize.setBounds(lblMiX, lblMiY, lblMiWidth, lblMiHeight);
 
 		// maxNum tf
-		int tfMiWidth = 100; // 500;
+		int tfMiWidth = 50; // 500;
 		int tfMiHeight = 20;
 		int tfMiX = lblMiX + lblMiWidth - 75;
 		int tfMiY = 50;
-		tfMaxIterations = new JTextField("2500000");
-		tfMaxIterations.setBounds(tfMiX, tfMiY, tfMiWidth, tfMiHeight);
+		tfMaxFontSize = new JTextField("150");
+		tfMaxFontSize.setBounds(tfMiX, tfMiY, tfMiWidth, tfMiHeight);
 
 		// RADIO
 		// url
@@ -157,7 +158,7 @@ public class WindowSystem {
 		int tfHeight = 20;
 		int tfX = (int) Math.round((winWidth / 2) - tfWidth / 2);
 		int tfY = tfMwY + 35;
-		tfUrl = new JTextField("https://en.wikipedia.org/wiki/Foundation_series");
+		tfUrl = new JTextField("https://en.wikipedia.org/wiki/War_and_Peace");
 		tfUrl.setBounds(tfX + 50, tfY, tfWidth - 50, tfHeight);
 
 		// url label
@@ -205,8 +206,8 @@ public class WindowSystem {
 		fr.add(tfMaxWords);
 		fr.add(lblMaxWords);
 
-		fr.add(tfMaxIterations);
-		fr.add(lblMaxIterations);
+		fr.add(tfMaxFontSize);
+		fr.add(lblFontSize);
 
 		fr.add(lblUrl);
 		fr.add(tfUrl);
@@ -240,16 +241,16 @@ public class WindowSystem {
 //				maxWordsBounds();
 
 				try {
-					maxIterations = Integer.parseInt(tfMaxIterations.getText());
+					maxFontSize = Integer.parseInt(tfMaxFontSize.getText());
 				} catch (NumberFormatException nfe) {
-					tfMaxIterations.setText("2500000");
+					tfMaxFontSize.setText("2500000");
 					JOptionPane.showMessageDialog(null,
-							"Invalid Max Iteration, default set to 2500000 \nError: " + nfe);
-					maxIterations = 2500000;
+							"Invalid Max Font Size, default set to 50 \nError: " + nfe);
+					maxFontSize = 50;
 				}
 
 				// log
-				System.out.println("Chosen:\t\tmaxWords: " + maxWords + "\t\tmaxIterations: " + maxIterations);
+				System.out.println("Chosen:\t\tmaxWords: " + maxWords + "\t\tmaxFont: " + maxFontSize);
 
 				// reset words and counts
 				dataProcessor.clearValidWords();
@@ -288,7 +289,7 @@ public class WindowSystem {
 //			}
 
 			private void processGraphics() {
-				graphicsProcessor.process(dataProcessor.getSortedWords(), maxWords, maxIterations);
+				graphicsProcessor.process(dataProcessor.getSortedWords(), maxWords, maxFontSize);
 				graphicsProcessor.displayGraphics();
 			}
 

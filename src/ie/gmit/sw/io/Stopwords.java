@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.TreeSet;
 
-public class Stopwords {
+public class Stopwords implements Stopworder {
 	// stop words
 	private int stopWordsFound;
 	private String stopWordsFileName;

@@ -10,11 +10,11 @@ import java.util.*;
  * 
  * @author Ronan
  */
-public class DataProcessor {
+public class DataProcess implements DataProcesser {
 	// readers
 	private DataReader dataReader;
 	private DataReaderFactory dataReaderFactory;
-	private Stopwords sdr;
+	private Stopworder sdr;
 	private String stopWordsFileName = "stopwords.txt";
 
 	// collections
@@ -28,7 +28,7 @@ public class DataProcessor {
 	 * Gets an instance of the DataReaderFactory, gets the Stopwords, adds the
 	 * stopwords to a collection
 	 */
-	public DataProcessor() {
+	public DataProcess() {
 		dataReaderFactory = DataReaderFactory.getInstance();
 		sdr = new Stopwords(stopWordsFileName);
 		sdr.addWords();
@@ -37,7 +37,7 @@ public class DataProcessor {
 	public TreeMap<String, Integer> getSortedWords() {
 		return sortedWords;
 	}
-
+	
 	/**
 	 * Clears the valid words list.
 	 */

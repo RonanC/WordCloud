@@ -1,7 +1,8 @@
 package ie.gmit.sw.test.graphics;
 
 import org.junit.*;
-import ie.gmit.sw.graphics.WordAnalyser;
+import ie.gmit.sw.graphics.WordAnalysis;
+import ie.gmit.sw.graphics.WordAnalyzer;
 import ie.gmit.sw.graphics.WordObject;
 
 import static org.junit.Assert.*;
@@ -13,7 +14,7 @@ import java.util.TreeMap;
  * @author Ronan Tests the WordAnalyser class in the graphics package
  */
 public class TestWordAnalyser {
-	WordAnalyser wordAnalyser;
+	WordAnalyzer wordAnalyser;
 
 	private TreeMap<String, Integer> sortedWords;
 	private int maxWords;
@@ -32,7 +33,7 @@ public class TestWordAnalyser {
 	@Test(expected = NullPointerException.class)
 	public void testConstructorNullException() {
 		System.out.println("Inside testConstructorNullException()");
-		wordAnalyser = new WordAnalyser(sortedWords);
+		wordAnalyser = new WordAnalysis(sortedWords);
 	}
 
 	@Test
@@ -42,7 +43,7 @@ public class TestWordAnalyser {
 		for (int i = 0; i < 3; i++) {
 			sortedWords.put("test" + i, i);
 		}
-		wordAnalyser = new WordAnalyser(sortedWords);
+		wordAnalyser = new WordAnalysis(sortedWords);
 	}
 
 	@Test
@@ -53,7 +54,8 @@ public class TestWordAnalyser {
 			sortedWords.put("test" + i, i);
 		}
 		maxWords = 50;
-		wordAnalyser = new WordAnalyser(sortedWords, maxWords);
+		int maxFontSize = 100;
+		wordAnalyser = new WordAnalysis(sortedWords, maxWords, maxFontSize);
 	}
 
 	@Test
@@ -63,7 +65,7 @@ public class TestWordAnalyser {
 		for (int i = 1; i <= 5; i++) {
 			sortedWords.put("test" + i, i);
 		}
-		wordAnalyser = new WordAnalyser(sortedWords);
+		wordAnalyser = new WordAnalysis(sortedWords);
 
 		ArrayList<WordObject> words = wordAnalyser.getWords();
 		System.out.println(words);

@@ -4,16 +4,21 @@ package ie.gmit.sw.graphics;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
- * Draws the words on the screen.
- * Does the actual painting/drawing of the words onto a new JPanel. First
- * calculates the positions of the words. A Spiral algorithm and randomness is
- * used to move the words so that they don't touch. There is a maximum number of
- * tries for the spiral algorithm, then the word is just placed. (needs
- * improvement)
+ * Draws the words on the screen. Does the actual painting/drawing of the words
+ * onto a new JPanel. First calculates the positions of the words. A Spiral
+ * algorithm and randomness is used to move the words so that they don't touch.
+ * There is a maximum number of tries for the spiral algorithm, then the word is
+ * just placed. (needs improvement)
+ * 
  * @author Ronan
  */
 public class DisplayGraphics extends JPanel {
@@ -26,7 +31,14 @@ public class DisplayGraphics extends JPanel {
 	private int midY = winHeight / 2;
 	private int maxWords;
 	private int maxIntersectTries;
+	private int maxFontSize;
 	private Color bgColor;
+	private Graphics2D graphics2d;
+
+	// print
+//	private Graphics2D g2dOutput;
+//	private String outputFileName;
+//	private BufferedImage bImg;
 
 	// data
 	private ArrayList<WordObject> words;
@@ -47,7 +59,8 @@ public class DisplayGraphics extends JPanel {
 	JFrame fr2;
 
 	/**
-	 * @param words List of WordObjects
+	 * @param words
+	 *            List of WordObjects
 	 */
 	public DisplayGraphics(ArrayList<WordObject> words) {
 		this.words = words;
@@ -57,14 +70,18 @@ public class DisplayGraphics extends JPanel {
 	}
 
 	/**
-	 * @param words List of WordObjects
-	 * @param maxWords Maximum words to use
-	 * @param maxIntersectTries Maximum amount of times to check for intersection
+	 * @param words
+	 *            List of WordObjects
+	 * @param maxWords
+	 *            Maximum words to use
+	 * @param maxIntersectTries
+	 *            Maximum amount of times to check for intersection
 	 */
-	public DisplayGraphics(ArrayList<WordObject> words, int maxWords, int maxIntersectTries) {
+	public DisplayGraphics(ArrayList<WordObject> words, int maxWords, int maxFontSize) {
 		this.words = words;
 		this.maxWords = maxWords;
-		this.maxIntersectTries = maxIntersectTries;
+		this.maxIntersectTries = 2500000;
+		this.maxFontSize = maxFontSize;
 		config();
 	}
 
@@ -72,6 +89,7 @@ public class DisplayGraphics extends JPanel {
 	 * Configuration details for the frame, action listeners and some variables.
 	 */
 	private void config() {
+//		outputFileName = "wordcloud.png";
 		paintCount = 0;
 
 		fr2 = new JFrame("Loading...");
@@ -118,6 +136,9 @@ public class DisplayGraphics extends JPanel {
 				setBackground(bgColor);
 			}
 		});
+//
+//		bImg = new BufferedImage(winWidth, winHeight, BufferedImage.TYPE_INT_RGB);
+//		graphics2d = bImg.createGraphics();
 	}
 
 	/**
@@ -129,9 +150,16 @@ public class DisplayGraphics extends JPanel {
 	 *            This is the objects to be checked against the total Area.
 	 * @return if the two areas intersect then true will be returned.
 	 */
-	private boolean testIntersection(Shape shapeA, Shape shapeB) {
+	private boolean collisionDetect(Shape total, Shape curr) {
+		boolean collision = false;
+		for (Rectangle rectangle : shapes) {
+			if (rectangle.getBounds2D().intersects(curr.getBounds2D())) {
+				collision = true;
+				return true;
+			}
+		}
 
-		return shapeA.getBounds2D().intersects(shapeB.getBounds2D());
+		return collision;
 	}
 
 	/**
@@ -152,7 +180,9 @@ public class DisplayGraphics extends JPanel {
 	 * is the most CPU intensive part as the spiral algorithm lives here and
 	 * each word runs in a loop of its own to find a free space on the
 	 * JPanel(JFrame).
-	 * @param g Default Graphics input from PaintComponent.
+	 * 
+	 * @param g
+	 *            Default Graphics input from PaintComponent.
 	 */
 	private void calculateShapes(Graphics g) {
 		// reset shapes list
@@ -208,7 +238,7 @@ public class DisplayGraphics extends JPanel {
 			boolean intersection = true;
 
 			if (shapes.size() > 0) {
-				intersection = testIntersection(totalArea, shape);
+				intersection = collisionDetect(totalArea, shape);
 			}
 
 			if (shapes.size() == 0) {
@@ -259,7 +289,9 @@ public class DisplayGraphics extends JPanel {
 	/**
 	 * Updates the title of the JFrame(JPanel) used for drawing, so that the
 	 * user can see the loading percentage.
-	 * @param wordCount The total amount of words completed.
+	 * 
+	 * @param wordCount
+	 *            The total amount of words completed.
 	 */
 	private void updateTitleLoading(int wordCount) {
 		double loadPerc;
@@ -302,9 +334,13 @@ public class DisplayGraphics extends JPanel {
 	 * spiral trying to find a free space on the JPanel. If no space is found
 	 * after the max iterations stated then the word is placed wherever the last
 	 * x/y pos is.
-	 * @param totalArea Total area used so far
-	 * @param intersection Is there an intersection yet?
-	 * @param count How many times we have checked this word for intersections.
+	 * 
+	 * @param totalArea
+	 *            Total area used so far
+	 * @param intersection
+	 *            Is there an intersection yet?
+	 * @param count
+	 *            How many times we have checked this word for intersections.
 	 * @return returns true of false
 	 */
 	private boolean IntersectionLooper(Area totalArea, boolean intersection, int count) {
@@ -363,7 +399,7 @@ public class DisplayGraphics extends JPanel {
 
 			shape = new Rectangle(x, y - wordHeight / 2, wordWidth, wordHeight / 2);
 
-			intersection = testIntersection(totalArea, shape);
+			intersection = collisionDetect(totalArea, shape);
 
 			if (!intersection) {
 				if (shape.x + wordWidth >= winWidth) {
@@ -400,21 +436,29 @@ public class DisplayGraphics extends JPanel {
 	}
 
 	/**
-	 * @param x Coordinate X
-	 * @param y Coordinate Y
-	 * @param wordObject Details from WordObject
-	 * @param g2d Graphics2D object
+	 * @param x
+	 *            Coordinate X
+	 * @param y
+	 *            Coordinate Y
+	 * @param wordObject
+	 *            Details from WordObject
+	 * @param g2d
+	 *            Graphics2D object
 	 */
 	private void drawWord(int x, int y, WordObject wordObject, Graphics2D g2d) {
-		Graphics2D graphics2d = wordObject.getGraphics2d();
+		graphics2d = wordObject.getGraphics2d();
 		graphics2d.drawString(wordObject.getWord(), wordObject.getX(), wordObject.getY());
 	}
 
 	/**
-	 * @param x Coordinate X
-	 * @param y Coordinate Y
-	 * @param wordObject Details from WordObject
-	 * @param g2d Graphics2D object
+	 * @param x
+	 *            Coordinate X
+	 * @param y
+	 *            Coordinate Y
+	 * @param wordObject
+	 *            Details from WordObject
+	 * @param g2d
+	 *            Graphics2D object
 	 */
 	private void saveWordPos(int x, int y, WordObject wordObject, Graphics2D g2d) {
 		wordObject.setGraphics2d(g2d);
@@ -423,9 +467,9 @@ public class DisplayGraphics extends JPanel {
 	}
 
 	/**
-	 * (non-Javadoc)
-	 * Starts the word calculates off (happens once). Then paints the words as
-	 * needed. This method is called automatically.
+	 * (non-Javadoc) Starts the word calculates off (happens once). Then paints
+	 * the words as needed. This method is called automatically.
+	 * 
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	@Override
@@ -448,6 +492,9 @@ public class DisplayGraphics extends JPanel {
 			// System.out.println("\npaintCount: " + paintCount + "\n");
 			drawShapes();
 			setBackground(bgColor);
+			
+//			if(paintCount == 1)
+//				saveWordlCloud();
 		}
 	} // paintComponent
 
@@ -465,9 +512,32 @@ public class DisplayGraphics extends JPanel {
 		}
 	}
 
+//	private void saveWordlCloud() {
+//		try {
+//			if (printPngImage()) {
+//				System.out.println("WordCloud.png has been generated.");
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	private boolean printPngImage() throws IOException {
+//		try {
+//
+//			ImageIO.write(bImg, "png", new File(outputFileName));
+//			return true; // if successful
+//		} catch (Exception e) {
+//			return false;
+//		}
+//	}
+
 	/**
 	 * Creates a random number.
-	 * @param maximum Range for random number
+	 * 
+	 * @param maximum
+	 *            Range for random number
 	 * @return returns random number
 	 */
 	private int randomNum(int maximum) {

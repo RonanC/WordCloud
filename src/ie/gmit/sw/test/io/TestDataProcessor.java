@@ -2,7 +2,8 @@ package ie.gmit.sw.test.io;
 
 import org.junit.*;
 
-import ie.gmit.sw.io.DataProcessor;
+import ie.gmit.sw.io.DataProcesser;
+import ie.gmit.sw.io.DataProcess;
 import java.util.TreeMap;
 import static org.junit.Assert.*;
 
@@ -10,7 +11,7 @@ import static org.junit.Assert.*;
  * @author Ronan. Tests the DataProcessor class in the io package.
  */
 public class TestDataProcessor {
-	DataProcessor dataProcessor;
+	DataProcesser dataProcessor;
 
 	@BeforeClass
 	public static void runBeforeClass() {
@@ -25,13 +26,13 @@ public class TestDataProcessor {
 	@Test
 	public void testConstructor() {
 		System.out.println("Inside testConstructor()");
-		dataProcessor = new DataProcessor();
+		dataProcessor = new DataProcess();
 	}
 
 	@Test
 	public void testAddSort() {
 		System.out.println("Inside testAddSort()");
-		dataProcessor = new DataProcessor();
+		dataProcessor = new DataProcess();
 
 		int wordNum = 10;
 
@@ -51,7 +52,7 @@ public class TestDataProcessor {
 	@Test
 	public void testClear() {
 		System.out.println("Inside testClear()");
-		dataProcessor = new DataProcessor();
+		dataProcessor = new DataProcess();
 
 		int wordNum = 10;
 
@@ -71,7 +72,7 @@ public class TestDataProcessor {
 	@Test
 	public void testStopwordsFileName() {
 		System.out.println("Inside testStopwordsFileName()");
-		dataProcessor = new DataProcessor();
+		dataProcessor = new DataProcess();
 
 		String stopWordsFileName = "stopwords2.txt";
 		dataProcessor.setStopWordsFileName(stopWordsFileName);
@@ -81,7 +82,7 @@ public class TestDataProcessor {
 	@Test
 	public void testProcess() {
 		System.out.println("Inside testProcess()");
-		dataProcessor = new DataProcessor();
+		dataProcessor = new DataProcess();
 
 		String stopWordsFileName = "stopwords2.txt";
 		dataProcessor.setStopWordsFileName(stopWordsFileName);
@@ -103,7 +104,7 @@ public class TestDataProcessor {
 	@Test(expected = Exception.class)
 	public void testFileReaderException() throws Exception {
 		System.out.println("Inside testFileReaderException()");
-		dataProcessor = new DataProcessor();
+		dataProcessor = new DataProcess();
 
 		String fileLocation = "incorrectFileName";
 		dataProcessor.fileReader(fileLocation);
@@ -112,7 +113,7 @@ public class TestDataProcessor {
 	@Test
 	public void testFileReader() throws Exception {
 		System.out.println("Inside testFileReader()");
-		dataProcessor = new DataProcessor();
+		dataProcessor = new DataProcess();
 
 		String fileLocation = "sampleData/SampleText.txt";
 		dataProcessor.fileReader(fileLocation);
@@ -121,7 +122,7 @@ public class TestDataProcessor {
 	@Test(expected = Exception.class)
 	public void testUrlReaderException() throws Exception {
 		System.out.println("Inside testUrlReaderException()");
-		dataProcessor = new DataProcessor();
+		dataProcessor = new DataProcess();
 
 		String fileLocation = "incorrectUrl";
 		dataProcessor.urlReader(fileLocation);
@@ -130,7 +131,7 @@ public class TestDataProcessor {
 	@Test
 	public void testUrlReader() throws Exception {
 		System.out.println("Inside testUrlReader()");
-		dataProcessor = new DataProcessor();
+		dataProcessor = new DataProcess();
 
 		String fileLocation = "http://www.ronanconnolly.ie";
 		dataProcessor.urlReader(fileLocation);

@@ -58,11 +58,7 @@ Where the word starts in the center (x/y coordinates) and moves to the right wit
 It continues this motion until a free space is found.
 
 Randomness is added to move the spiral off course which helps as one spiral will just keep repeating itself.
-The default max time to check each words is 2.5 million times.
-The algorithm is inefficient in that half the time a word cannot find a free space and is placed at the last x/y coordinates checked.
-
-I feel that the algorithm creates a nice cloud of words, even if some overlap.
-
+The default max time to check each words is 2.5 million times. (This should never be reached, only if you have the max words very high possibly).
 
 3 - Tools & Environment used
 ---

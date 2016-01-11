@@ -7,12 +7,12 @@ import java.util.*;
  * Analyzes the words to predict what font details they should have.
  * @author Ronan
  */
-public class WordAnalyser {
+public class WordAnalysis implements WordAnalyzer {
 	// data
 	private TreeMap<String, Integer> sortedWords;
 	private ArrayList<WordObject> words = new ArrayList<WordObject>();
 	private int maxWords;
-	private final int maxFontSize = 150;
+	private int maxFontSize = 120;
 
 	// globals
 	// font sizer
@@ -24,7 +24,8 @@ public class WordAnalyser {
 	 * Starts the word analysis
 	 * @param sw Sets Sorted Words
 	 */
-	public WordAnalyser(TreeMap<String, Integer> sw) {
+	public WordAnalysis(TreeMap<String, Integer> sw) {
+		this.maxFontSize = 150;
 		this.maxWords = 50;
 		sortedWords = sw;
 		analyse();
@@ -33,8 +34,10 @@ public class WordAnalyser {
 	/**
 	 * @param sw Sets Sorted Words
 	 * @param maxWords Starts the word analyzes
+	 * @param maxFont max font
 	 */
-	public WordAnalyser(TreeMap<String, Integer> sw, int maxWords) {
+	public WordAnalysis(TreeMap<String, Integer> sw, int maxWords, int maxFont) {
+		this.maxFontSize = maxFont;
 		this.maxWords = maxWords;
 		sortedWords = sw;
 		analyse();
@@ -163,5 +166,15 @@ public class WordAnalyser {
 	public ArrayList<WordObject> getWords() {
 		return words;
 	}
+	
+	public int getMaxFontSize() {
+		return maxFontSize;
+	}
+
+	public void setMaxFontSize(int maxFontSize) {
+		this.maxFontSize = maxFontSize;
+	}
+	
+	
 
 }

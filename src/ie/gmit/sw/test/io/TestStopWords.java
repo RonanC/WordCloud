@@ -2,6 +2,7 @@ package ie.gmit.sw.test.io;
 
 import org.junit.*;
 
+import ie.gmit.sw.io.Stopworder;
 import ie.gmit.sw.io.Stopwords;
 import static org.junit.Assert.*;
 
@@ -9,7 +10,7 @@ import static org.junit.Assert.*;
  * @author Ronan. Tests the StopWords class in the io package.
  */
 public class TestStopWords {
-	Stopwords stopwords;
+	Stopworder stopwords;
 	String fileLocation;
 
 	@BeforeClass
