@@ -46,8 +46,12 @@ public class WindowSystem {
 	private File selectedFile;
 
 	// data
-	private int maxWords;
-	private int maxFontSize;
+	private int maxWords = 80;
+	private int maxFont = 170;
+	private int maxWordsDef = 80;
+	private int maxFontDef = 170;
+	private String maxWordsStr = "80";
+	private String maxFontStr = "170";
 	private String url;
 	int choice; // 0 or 1, url or data
 
@@ -96,13 +100,13 @@ public class WindowSystem {
 	 * Creates the various GUI components needed.
 	 */
 	private void createComps() {
-		// MAX NUM
+		// MAX WORDS
 		// maxNum tf
 		int tfMwWidth = (int) Math.round(winWidth * .83); // 500;
 		int tfMwHeight = 20;
 		int tfMwX = (int) Math.round((winWidth / 2) - tfMwWidth / 2);
 		int tfMwY = 50;
-		tfMaxWords = new JTextField("50");
+		tfMaxWords = new JTextField(maxWordsStr);
 		tfMaxWords.setBounds(tfMwX + 75, tfMwY, tfMwWidth - (tfMwWidth *= .90), tfMwHeight);
 
 		// maxNum label
@@ -127,7 +131,7 @@ public class WindowSystem {
 		int tfMiHeight = 20;
 		int tfMiX = lblMiX + lblMiWidth - 75;
 		int tfMiY = 50;
-		tfMaxFontSize = new JTextField("150");
+		tfMaxFontSize = new JTextField(maxFontStr);
 		tfMaxFontSize.setBounds(tfMiX, tfMiY, tfMiWidth, tfMiHeight);
 
 		// RADIO
@@ -228,29 +232,27 @@ public class WindowSystem {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-
-				
 				try {
 					maxWords = Integer.parseInt(tfMaxWords.getText());
 				} catch (NumberFormatException nfe) {
-					tfMaxWords.setText("50");
-					JOptionPane.showMessageDialog(null, "Invalid Max Words, default set to 50 \nError: " + nfe);
-					maxWords = 50;
+					tfMaxWords.setText(maxWordsStr);
+					JOptionPane.showMessageDialog(null, "Invalid Max Words, default set to "+ maxWordsDef +" \nError: " + nfe);
+					maxWords = maxWordsDef;
 				}
 				
 //				maxWordsBounds();
 
 				try {
-					maxFontSize = Integer.parseInt(tfMaxFontSize.getText());
+					maxFont = Integer.parseInt(tfMaxFontSize.getText());
 				} catch (NumberFormatException nfe) {
-					tfMaxFontSize.setText("2500000");
+					tfMaxFontSize.setText(maxFontStr);
 					JOptionPane.showMessageDialog(null,
-							"Invalid Max Font Size, default set to 50 \nError: " + nfe);
-					maxFontSize = 50;
+							"Invalid Max Font Size, default set to "+maxFontDef+" \nError: " + nfe);
+					maxFont = maxFontDef;
 				}
 
 				// log
-				System.out.println("Chosen:\t\tmaxWords: " + maxWords + "\t\tmaxFont: " + maxFontSize);
+				System.out.println("Chosen:\t\tmaxWords: " + maxWords + "\t\tmaxFont: " + maxFont);
 
 				// reset words and counts
 				dataProcessor.clearValidWords();
@@ -289,7 +291,7 @@ public class WindowSystem {
 //			}
 
 			private void processGraphics() {
-				graphicsProcessor.process(dataProcessor.getSortedWords(), maxWords, maxFontSize);
+				graphicsProcessor.process(dataProcessor.getSortedWords(), maxWords, maxFont);
 				graphicsProcessor.displayGraphics();
 			}
 

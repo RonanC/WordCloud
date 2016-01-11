@@ -72,27 +72,18 @@ The default max time to check each words is 2.5 million times. (This should neve
 ---
 ###Run
 - Make sure stopwords.txt file is in the same folder as the jar (one word per line).  
-- Double click the jar to run.
+- Double click the **wordcloudExecutable.jar** jar to run.
+- This jar includes the Jsoup library inside.
 
 OR
 
-Make sure stopwords.txt file is in the same folder as the jar (one word per line).
-
-In order to allow the jar to be exectuable do the following: (unix)
+- Make sure stopwords.txt file is in the same folder as the jar (one word per line).
+- Run the command:
 ```sh
-> sudo chmod +x wordcloud.sh
+> java –cp ./wordie.jar ie.gmit.sw.Runner
 ```
-
-Next create a script to run the jar called *"WordCloud.sh"*
-```sh
-#!/bin/sh
-java -cp 'jsoup-1.8.3.jar'-jar wordcloud.jar
-```
-
-Finally run the script  
-```sh
-> ./wordcloud.sh
-```
+ 
+- If you get a JSoup error it means you need to add JSoup to your CLASSPATH.
 
 ###Dependencies  
 - Jsoup (http://jsoup.org/)
