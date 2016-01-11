@@ -75,8 +75,8 @@ I feel that the algorithm creates a nice cloud of words, even if some overlap.
 4 - Installation
 ---
 ###Run
-Make sure stopwords.txt file is in the same folder as the jar (one word per line).
-Double click the jar to run.
+- Make sure stopwords.txt file is in the same folder as the jar (one word per line).  
+- Double click the jar to run.
 
 OR
 
