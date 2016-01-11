@@ -3,7 +3,7 @@
   realizations="true" associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="ie.gmit.sw.test.runner.TestSuiteRunner" project="WordCloud" 
     file="/WordCloud/src/ie/gmit/sw/test/runner/TestSuiteRunner.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="323" y="69"/>    
+    <position height="-1" width="-1" x="167" y="157"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="ie.gmit.sw.test.runner.TestWindowSystem" project="WordCloud" 
     file="/WordCloud/src/ie/gmit/sw/test/runner/TestWindowSystem.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="563" y="66"/>    
+    <position height="-1" width="-1" x="468" y="88"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="ie.gmit.sw.test.io.TestFileDataReader" project="WordCloud" 
     file="/WordCloud/src/ie/gmit/sw/test/io/TestFileDataReader.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="128" y="250"/>    
+    <position height="-1" width="-1" x="118" y="320"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="ie.gmit.sw.test.io.TestStopWords" project="WordCloud" 
     file="/WordCloud/src/ie/gmit/sw/test/io/TestStopWords.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="312" y="250"/>    
+    <position height="-1" width="-1" x="302" y="320"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -48,7 +48,7 @@
   </class>  
   <class id="6" language="java" name="ie.gmit.sw.test.io.TestDataReaderFactory" project="WordCloud" 
     file="/WordCloud/src/ie/gmit/sw/test/io/TestDataReaderFactory.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="649" y="254"/>    
+    <position height="-1" width="-1" x="658" y="320"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -66,7 +66,7 @@
   </class>  
   <class id="8" language="java" name="ie.gmit.sw.test.io.TestUrlDataReader" project="WordCloud" 
     file="/WordCloud/src/ie/gmit/sw/test/io/TestUrlDataReader.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1038" y="254"/>    
+    <position height="-1" width="-1" x="862" y="320"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -75,7 +75,7 @@
   </class>  
   <class id="9" language="java" name="ie.gmit.sw.test.graphics.TestGraphicsProcessor" project="WordCloud" 
     file="/WordCloud/src/ie/gmit/sw/test/graphics/TestGraphicsProcessor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="135" y="636"/>    
+    <position height="-1" width="-1" x="184" y="537"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -84,7 +84,7 @@
   </class>  
   <class id="10" language="java" name="ie.gmit.sw.test.graphics.TestWordAnalyser" project="WordCloud" 
     file="/WordCloud/src/ie/gmit/sw/test/graphics/TestWordAnalyser.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="343" y="636"/>    
+    <position height="-1" width="-1" x="392" y="537"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -93,7 +93,7 @@
   </class>  
   <class id="11" language="java" name="ie.gmit.sw.test.graphics.TestWordObject" project="WordCloud" 
     file="/WordCloud/src/ie/gmit/sw/test/graphics/TestWordObject.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="525" y="636"/>    
+    <position height="-1" width="-1" x="574" y="537"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -102,7 +102,7 @@
   </class>  
   <class id="12" language="java" name="ie.gmit.sw.test.graphics.TestDisplayGraphics" project="WordCloud" 
     file="/WordCloud/src/ie/gmit/sw/test/graphics/TestDisplayGraphics.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="716" y="636"/>    
+    <position height="-1" width="-1" x="765" y="537"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -111,7 +111,7 @@
   </class>  
   <class id="13" language="java" name="ie.gmit.sw.test.graphics.TestSuiteGraphics" project="WordCloud" 
     file="/WordCloud/src/ie/gmit/sw/test/graphics/TestSuiteGraphics.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="426" y="541"/>    
+    <position height="-1" width="-1" x="475" y="442"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -123,30 +123,46 @@
     <end type="TARGET" refId="5"/>  
   </dependency>  
   <dependency id="15">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="10"/>  
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="8"/>  
   </dependency>  
   <dependency id="16">    
     <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="11"/>  
+    <end type="TARGET" refId="10"/>  
   </dependency>  
   <dependency id="17">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="13"/>  
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="4"/>  
   </dependency>  
   <dependency id="18">    
     <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="9"/>  
+    <end type="TARGET" refId="11"/>  
   </dependency>  
   <dependency id="19">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="20">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="21">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="13"/>  
+  </dependency>  
+  <dependency id="22">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="9"/>  
+  </dependency>  
+  <dependency id="23">    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="7"/>  
   </dependency>  
-  <dependency id="20">    
+  <dependency id="24">    
     <end type="SOURCE" refId="13"/>    
     <end type="TARGET" refId="12"/>  
   </dependency>  
-  <dependency id="21">    
+  <dependency id="25">    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="2"/>  
   </dependency>  

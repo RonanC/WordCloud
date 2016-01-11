@@ -8,6 +8,6 @@ import org.junit.runners.Suite;
  *         has its own test class
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ TestDataProcessor.class })
+@Suite.SuiteClasses({ TestDataProcessor.class, TestDataReaderFactory.class, TestFileDataReader.class, TestStopWords.class, TestUrlDataReader.class })
 public class TestSuiteIO {
 }
