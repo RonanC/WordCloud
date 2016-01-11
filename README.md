@@ -105,9 +105,10 @@ Finally run the script
 
 5 - Use
 ---
-- Either enter a filename or a url
-- A wordcloud will be draw in front of you
-- You can take a screenshot if you wish to save (there are permission issues when writing locally via Java)
+- Either enter a filename or a url.
+- A wordcloud will be draw in front of you.
+- You can take a screenshot if you wish to save (there are permission issues when writing locally via Java).
+- Click the word cloud to change the background color.
 
 
 6 - UML
