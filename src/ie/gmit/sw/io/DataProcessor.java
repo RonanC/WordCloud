@@ -79,7 +79,7 @@ public class DataProcessor {
 	 * 
 	 * and parses it using a Third party library called JSOUP.
 	 * 
-	 * @param inputDataUrlname
+	 * @param fileLocation
 	 *            is the URL to be retrieved.
 	 * @exception Exception
 	 *                on input error.

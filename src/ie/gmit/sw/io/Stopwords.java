@@ -43,7 +43,7 @@ public class Stopwords {
 	/**
 	 * Updates file location then calls addwords method
 	 * 
-	 * @param stopWordsFileName
+	 * @param stopWordsFileName Location of stopwords file
 	 */
 	public void addWords(String stopWordsFileName) {
 		setStopWordsFileName(stopWordsFileName);

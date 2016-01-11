@@ -28,9 +28,9 @@ Inspiration from [Jonathan Feinberg](http://mrfeinberg.com/), the creator of [Wo
 2 - Structure
 ---
 ###Packages
+- ie.gmit.sw
 - ie.gmit.sw.graphics
 - ie.gmit.sw.io
-- ie.gmit.sw.runner
 - ie.gmit.sw.test.graphics
 - ie.gmit.sw.test.io
 - ie.gmit.sw.test.runner
@@ -75,11 +75,12 @@ I feel that the algorithm creates a nice cloud of words, even if some overlap.
 4 - Installation
 ---
 ###Run
+Make sure stopwords.txt file is in the same folder as the jar (one word per line).
 Double click the jar to run.
 
 OR
 
-Make sure the stopwords is in the jar folder
+Make sure stopwords.txt file is in the same folder as the jar (one word per line).
 
 In order to allow the jar to be exectuable do the following: (unix)
 ```sh

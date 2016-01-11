@@ -25,15 +25,9 @@ public class UrlDataReader implements DataReader {
 		this.url = inputDataUrlname;
 	}
 
-	/**
-	 * Reads in data from a URL and parses it using a Third party library called
-	 * JSOUP.
-	 * 
-	 * @param inputDataUrlname
-	 *            is the URL to be retrieved.
-	 * @exception Exception
-	 *                on input error.
-	 * @see Exception
+
+	/* (non-Javadoc)
+	 * @see ie.gmit.sw.io.DataReader#getData()
 	 */
 	@Override
 	public String getData() throws IOException {
