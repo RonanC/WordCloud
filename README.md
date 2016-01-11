@@ -113,10 +113,10 @@ Finally run the script
 ---
 *Follows OMG UML 2.0 specification*
 ###Wordcloud Class Diagram
-![Wordcloud Class Diagram](https://github.com/RonanC/WordCloud/blob/master/src/ie/gmit/sw/uml/WordcloudClassDiagram.png)
+![Wordcloud Class Diagram](https://github.com/RonanC/WordCloud/blob/master/bin/ie/gmit/sw/uml/design.png)
 
 ###Test Class Diagram
-![Test Class Diagram](https://github.com/RonanC/WordCloud/blob/master/src/ie/gmit/sw/uml/WordcloudTestClassDiagram.png)
+![Test Class Diagram](https://github.com/RonanC/WordCloud/blob/master/bin/ie/gmit/sw/uml/test.png)
 
 7 - Future Features
 ---
