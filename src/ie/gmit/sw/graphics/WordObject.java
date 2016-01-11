@@ -6,7 +6,7 @@ import java.awt.*;
  * 
  * Contains all the information for each word. All the font details, coordinates
  * and the graphics object.
- *
+ * @author Ronan
  */
 public class WordObject {
 	private String word;
@@ -21,12 +21,24 @@ public class WordObject {
 	private int x;
 	private int y;
 
+	
+	/**
+	 * @param word Word to be drawn
+	 * @param count Number of occurrences of word
+	 */
 	public WordObject(String word, int count) {
 		super();
 		this.word = word;
 		this.count = count;
 	}
 
+	/**
+	 * @param word Word to be drawn
+	 * @param count Number of occurrences of word
+	 * @param fontSize Font size
+	 * @param color Word Color
+	 * @param font Font Object
+	 */
 	public WordObject(String word, int count, int fontSize, Color color, Font font) {
 		super();
 		this.word = word;

@@ -4,9 +4,8 @@ import org.junit.*;
 import ie.gmit.sw.graphics.GraphicsProcessor;
 import java.util.TreeMap;
 
-/** 
- * @author Ronan
- * Tests the GraphicsProcessor class in the graphics package
+/**
+ * @author Ronan Tests the GraphicsProcessor class in the graphics package
  */
 public class TestGraphicsProcessor {
 	GraphicsProcessor graphicsProcessor;
@@ -34,23 +33,23 @@ public class TestGraphicsProcessor {
 		sortedWords = null;
 		graphicsProcessor.process(sortedWords, maxWords, maxIterations);
 	}
-	
+
 	@Test
 	public void testProcess() {
 		System.out.println("Inside testProcess()");
-		
+
 		sortedWords = new TreeMap<String, Integer>();
 		for (int i = 0; i < 3; i++) {
 			sortedWords.put("test" + i, i);
 		}
-		
+
 		graphicsProcessor.process(sortedWords, maxWords, maxIterations);
 	}
 
 	@Test
 	public void testDisplayGraphics() {
 		System.out.println("Inside testDisplayGraphics()");
-		
+
 		sortedWords = new TreeMap<String, Integer>();
 		for (int i = 0; i < 3; i++) {
 			sortedWords.put("test" + i, i);

@@ -8,13 +8,23 @@ import java.net.URL;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+/**
+ * Reads in data from a URL
+ * 
+ * @author Ronan
+ *
+ */
 public class UrlDataReader implements DataReader {
 	private String url;
-	
+
+	/**
+	 * @param inputDataUrlname
+	 *            takes in the url address
+	 */
 	public UrlDataReader(String inputDataUrlname) {
 		this.url = inputDataUrlname;
 	}
-	
+
 	/**
 	 * Reads in data from a URL and parses it using a Third party library called
 	 * JSOUP.
@@ -61,7 +71,7 @@ public class UrlDataReader implements DataReader {
 		// System.out.println("linkOuterH: " + linkOuterH);
 		// System.out.println("linkInnerH: " + linkInnerH);
 
-		return(text);
+		return (text);
 	}
 
 	public String getDataLocation() {
@@ -71,6 +81,5 @@ public class UrlDataReader implements DataReader {
 	public void setDataLocation(String url) {
 		this.url = url;
 	}
-	
-	
+
 }

@@ -5,7 +5,8 @@ import java.util.*;
 /**
  * 
  * Used to sort the HashMap by order of word count.
- *
+ * 
+ * @author Ronan
  */
 class ValueComparator implements Comparator<String> {
 	private Map<String, Integer> base;
@@ -15,7 +16,9 @@ class ValueComparator implements Comparator<String> {
 	}
 
 	/**
-	 * Compares the count of each key from the maps value.
+	 * (non-Javadoc) Compares the count of each key from the maps value.
+	 * 
+	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	public int compare(String a, String b) {
 		if (base.get(a) >= base.get(b)) {

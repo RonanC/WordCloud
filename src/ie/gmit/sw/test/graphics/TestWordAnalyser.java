@@ -9,13 +9,12 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-/** 
- * @author Ronan
- * Tests the WordAnalyser class in the graphics package
+/**
+ * @author Ronan Tests the WordAnalyser class in the graphics package
  */
 public class TestWordAnalyser {
 	WordAnalyser wordAnalyser;
-	
+
 	private TreeMap<String, Integer> sortedWords;
 	private int maxWords;
 
@@ -27,7 +26,7 @@ public class TestWordAnalyser {
 	@Before
 	public void setUp() {
 		wordAnalyser = null;
-//		wordAnalyser = new WordAnalyser(sw, maxWords);
+		// wordAnalyser = new WordAnalyser(sw, maxWords);
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -35,7 +34,7 @@ public class TestWordAnalyser {
 		System.out.println("Inside testConstructorNullException()");
 		wordAnalyser = new WordAnalyser(sortedWords);
 	}
-	
+
 	@Test
 	public void testConstructorShort() {
 		System.out.println("Inside testConstructorShort()");
@@ -45,7 +44,7 @@ public class TestWordAnalyser {
 		}
 		wordAnalyser = new WordAnalyser(sortedWords);
 	}
-	
+
 	@Test
 	public void testConstructorLong() {
 		System.out.println("Inside testConstructorShort()");
@@ -56,7 +55,7 @@ public class TestWordAnalyser {
 		maxWords = 50;
 		wordAnalyser = new WordAnalyser(sortedWords, maxWords);
 	}
-	
+
 	@Test
 	public void testGetWords() {
 		System.out.println("Inside testConstructorShort()");
@@ -65,10 +64,11 @@ public class TestWordAnalyser {
 			sortedWords.put("test" + i, i);
 		}
 		wordAnalyser = new WordAnalyser(sortedWords);
-		
+
 		ArrayList<WordObject> words = wordAnalyser.getWords();
 		System.out.println(words);
-		// 5 words added, first had a count of 1 so that should be removed, leaving 4 words
+		// 5 words added, first had a count of 1 so that should be removed,
+		// leaving 4 words
 		assertEquals(4, words.size());
 	}
 

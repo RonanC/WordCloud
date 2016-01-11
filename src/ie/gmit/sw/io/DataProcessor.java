@@ -8,6 +8,7 @@ import java.util.*;
  * into lists and blocks unnecessary words. Sorts the data using the
  * ValueComparator class.
  * 
+ * @author Ronan
  */
 public class DataProcessor {
 	// readers
@@ -23,16 +24,23 @@ public class DataProcessor {
 	private ValueComparator vc = new ValueComparator(validWords);
 	private TreeMap<String, Integer> sortedWords = new TreeMap<String, Integer>(vc);
 
+	/**
+	 * Gets an instance of the DataReaderFactory, gets the Stopwords, adds the
+	 * stopwords to a collection
+	 */
 	public DataProcessor() {
 		dataReaderFactory = DataReaderFactory.getInstance();
 		sdr = new Stopwords(stopWordsFileName);
 		sdr.addWords();
 	}
-	
+
 	public TreeMap<String, Integer> getSortedWords() {
 		return sortedWords;
 	}
 
+	/**
+	 * Clears the valid words list.
+	 */
 	public void clearValidWords() {
 		validWords.clear();
 	}
@@ -56,8 +64,10 @@ public class DataProcessor {
 	/**
 	 * Reads in data from a file. Returns the result.
 	 * 
-	 * @param inputDataFileName
+	 * @param fileLocation
 	 *            is the path to the local file.
+	 * @throws Exception
+	 *             If file is not found
 	 */
 	public void fileReader(String fileLocation) throws Exception {
 		dataReader = dataReaderFactory.getReader("file", fileLocation);
@@ -79,7 +89,13 @@ public class DataProcessor {
 		dataReader = dataReaderFactory.getReader("url", fileLocation);
 		processReaderData(fileLocation);
 	}
-	
+
+	/**
+	 * @param fileLocation
+	 *            Location of file
+	 * @throws Exception
+	 *             If data cannot be processed
+	 */
 	private void processReaderData(String fileLocation) throws Exception {
 		process(dataReader.getData());
 		sortWords();
@@ -87,6 +103,9 @@ public class DataProcessor {
 
 	/**
 	 * Removes punctuation and calls the add word method.
+	 * 
+	 * @param data
+	 *            Data to be processed, split and punctuation removed.
 	 */
 	public void process(String data) {
 		// removes punctuation + to_lowercase
@@ -103,6 +122,9 @@ public class DataProcessor {
 	/**
 	 * Adds a word to the map or else increases its count. Checks words against
 	 * the stop word list.
+	 * 
+	 * @param word
+	 *            Word to be added, checked against stop words first
 	 */
 	public void addWord(String word) {
 		if (!sdr.getStopWords().contains(word)) {
@@ -134,5 +156,5 @@ public class DataProcessor {
 	public void setStopWordsFileName(String stopWordsFileName) {
 		this.stopWordsFileName = stopWordsFileName;
 	}
-	
+
 }

@@ -2,7 +2,7 @@ package ie.gmit.sw.test.runner;
 
 import org.junit.*;
 
-import ie.gmit.sw.runner.WindowSystem;
+import ie.gmit.sw.WindowSystem;
 
 /**
  * @author Ronan Tests the TestWindowSystem class in the graphics package

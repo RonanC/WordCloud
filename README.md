@@ -11,9 +11,10 @@ Contents:
 3. Tools & Environment used
 4. Installation
 5. Use
-6. Future Features
-7. References
-8. Team
+6. UML
+7. Future Features
+8. References
+9. Team
 
 1 - About
 ---
@@ -30,9 +31,9 @@ Inspiration from [Jonathan Feinberg](http://mrfeinberg.com/), the creator of [Wo
 - ie.gmit.sw.graphics
 - ie.gmit.sw.io
 - ie.gmit.sw.runner
-- ie.gmit.sw.testGraphics
-- ie.gmit.sw.testIO
-- ie.gmit.sw.testRunner
+- ie.gmit.sw.test.graphics
+- ie.gmit.sw.test.io
+- ie.gmit.sw.test.runner
 
 ###Design Patterns
 - Singleton
@@ -74,20 +75,26 @@ I feel that the algorithm creates a nice cloud of words, even if some overlap.
 4 - Installation
 ---
 ###Run
+Double click the jar to run.
+
+OR
+
+Make sure the stopwords is in the jar folder
+
 In order to allow the jar to be exectuable do the following: (unix)
 ```sh
-> sudo chmod +x WordCloud.jar
+> sudo chmod +x wordcloud.sh
 ```
 
 Next create a script to run the jar called *"WordCloud.sh"*
 ```sh
 #!/bin/sh
-java -jar WordCloud.jar
+java -cp 'jsoup-1.8.3.jar'-jar wordcloud.jar
 ```
 
 Finally run the script  
 ```sh
-> ./WordCloud.sh
+> ./wordcloud.sh
 ```
 
 ###Dependencies  

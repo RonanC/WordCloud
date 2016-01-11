@@ -2,15 +2,9 @@ package ie.gmit.sw.test.io;
 
 import org.junit.*;
 
-import ie.gmit.sw.io.DataProcessor;
-import ie.gmit.sw.io.DataReader;
 import ie.gmit.sw.io.DataReaderFactory;
 import ie.gmit.sw.io.FileDataReader;
 import ie.gmit.sw.io.UrlDataReader;
-
-import java.io.FileReader;
-import java.util.TreeMap;
-import static org.junit.Assert.*;
 
 /**
  * @author Ronan. Tests the DataReaderFactory class in the io package.
@@ -40,20 +34,20 @@ public class TestDataReaderFactory {
 		System.out.println("Inside testGetReader()");
 		dataReaderFactory = DataReaderFactory.getInstance();
 		String fileLocation;
-		
+
 		fileLocation = "sampleData/SampleText.txt";
 		FileDataReader fdr = (FileDataReader) dataReaderFactory.getReader("file", fileLocation);
 
 		fileLocation = "http://www.ronanconnolly.ie";
 		UrlDataReader udr = (UrlDataReader) dataReaderFactory.getReader("url", fileLocation);
 	}
-	
+
 	@Test(expected = ClassCastException.class)
 	public void testGetReaderException() {
 		System.out.println("Inside testGetReaderException()");
 		dataReaderFactory = DataReaderFactory.getInstance();
 		String fileLocation;
-		
+
 		fileLocation = "http://www.ronanconnolly.ie";
 		FileDataReader fdr = (FileDataReader) dataReaderFactory.getReader("url", fileLocation);
 	}

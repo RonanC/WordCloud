@@ -2,14 +2,7 @@ package ie.gmit.sw.test.io;
 
 import org.junit.*;
 
-import ie.gmit.sw.io.DataProcessor;
-import ie.gmit.sw.io.DataReader;
-import ie.gmit.sw.io.DataReaderFactory;
 import ie.gmit.sw.io.FileDataReader;
-import ie.gmit.sw.io.UrlDataReader;
-
-import java.io.FileReader;
-import java.util.TreeMap;
 import static org.junit.Assert.*;
 
 /**
@@ -42,16 +35,16 @@ public class TestFileDataReader {
 		System.out.println("Inside testGetReader()");
 		fileLocation = "sampleData/SampleText.txt";
 		fileDataReader = new FileDataReader(fileLocation);
-		
+
 		assertEquals(fileLocation, fileDataReader.getDataLocation());
 	}
-	
+
 	@Test
 	public void testGetData() throws Exception {
 		System.out.println("Inside testGetReader()");
 		fileLocation = "sampleData/SampleText.txt";
 		fileDataReader = new FileDataReader(fileLocation);
-	
+
 		assertNotNull(fileDataReader.getData());
 	}
 

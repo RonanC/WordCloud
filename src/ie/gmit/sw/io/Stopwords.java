@@ -10,12 +10,16 @@ public class Stopwords {
 	private int stopWordsFound;
 	private String stopWordsFileName;
 	private TreeSet<String> stopWords;
-	
+
+	/**
+	 * @param dataLocation
+	 *            location of stop words file
+	 */
 	public Stopwords(String dataLocation) {
 		this.stopWordsFileName = dataLocation;
 		stopWords = new TreeSet<String>();
 	}
-	
+
 	/**
 	 * Reads in the stop words list (words to be blocked while parsing in data).
 	 * you can call this method with different file names
@@ -35,12 +39,13 @@ public class Stopwords {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Updates file location then calls addwords method
+	 * 
 	 * @param stopWordsFileName
 	 */
-	public void addWords(String stopWordsFileName){
+	public void addWords(String stopWordsFileName) {
 		setStopWordsFileName(stopWordsFileName);
 		addWords();
 	}

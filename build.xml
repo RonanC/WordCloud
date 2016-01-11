@@ -11,7 +11,7 @@
 
      =================================================================================== -->
 <project name="wordcloud" default="deploy">
-    <description>
+	<description>
 		B.Sc. Software Development – Advanced Object-Oriented Design Principles and Patterns (2015)
         2015 Assignment - A Java Word Cloud API
     </description>
@@ -19,20 +19,20 @@
 	<!-- Declare global properties (name/value pairs) for this build -->
 
 
-	<property name="user.name" value="G00274374"/>
+	<property name="user.name" value="G00274374" />
 
-	<property name="org.name" value="Galway-Mayo Institute of Technology"/>
-	<property name="app.name" value="Word Cloud API"/>
-	<property name="app.version" value="1.0"/>
-	<property name="app.version.name" value="Scarab"/>
-	<property name="jre.target" value="1.5"/>
-	<property name="srcDir" value="./src/"/>
-	<property name="distDir" value="./dist"/>
-	<property name="docDir" value="${distDir}/docs"/>
+	<property name="org.name" value="Galway-Mayo Institute of Technology" />
+	<property name="app.name" value="Word Cloud API" />
+	<property name="app.version" value="1.0" />
+	<property name="app.version.name" value="Scarab" />
+	<property name="jre.target" value="1.5" />
+	<property name="srcDir" value="./src/" />
+	<property name="distDir" value="./dist" />
+	<property name="docDir" value="${distDir}/docs" />
 
 	<path id="classpath">
-    	<pathelement location="." />
-  	</path>
+		<pathelement location="." />
+	</path>
 
 	<echo>
 	    ----------------------------------------------------------------------------
@@ -47,17 +47,17 @@
 
 
 	<!-- Delete any previously created directories and files -->
-    <target name="clean">
-    	<delete dir="${docDir}"/>
-    	<delete>
-    	    <fileset dir="${distDir}" includes="**/*"/>
-    	</delete>
-    </target>
+	<target name="clean">
+		<delete dir="${docDir}" />
+		<delete>
+			<fileset dir="${distDir}" includes="**/*" />
+		</delete>
+	</target>
 
 	<!-- Initialisation task -->
-    <target name="init" depends="clean">
-		<tstamp/>
-    	<mkdir dir="${distDir}"/>
+	<target name="init" depends="clean">
+		<tstamp />
+		<mkdir dir="${distDir}" />
 
 
 	</target>
@@ -66,38 +66,69 @@
 	<!-- Compile source code -->
 	<target name="compile" depends="init">
 		<javac target="${jre.target}" source="${jre.target}" srcdir="${srcDir}" destdir="${distDir}">
-		    <classpath refid="classpath" />
+			<classpath refid="classpath" />
 		</javac>
 	</target>
 
+	<!-- create runnable jar -->
+	<!--define folder properties-->
+	<property name="dir.buildfile" value="." />
+	<property name="dir.workspace" value="${distDir}" />
+	<property name="dir.jarfile" value="${distDir}" />
+
+	<!-- <property name="dir.workspace" value="${dir.buildfile}"/>
+      <property name="dir.jarfile" value="${dir.buildfile}"/> -->
+
+	<target name="create_run_jar" depends="compile">
+		<jar destfile="${dir.jarfile}/wordcloud.jar" basedir="${distDir}" excludes="**/Test*.class, **/Compact*.class">
+			<manifest>
+				<attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+				<attribute name="Rsrc-Main-Class" value="ie.gmit.sw.Runner" />
+				<attribute name="Class-Path" value="." />
+				<attribute name="Rsrc-Class-Path" value="./ jsoup-1.8.3.jar jsoup-1.8.3-javadoc.jar junit-4.10.jar junit-4.10.jar" />
+
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Implementation-Vendor" value="${org.name}" />
+				<attribute name="Implementation-Title" value="${app.name}" />
+				<attribute name="Implementation-Version" value="${app.version}" />
+			</manifest>
+			<zipfileset src="jar-in-jar-loader.zip" />
+			<fileset dir="${dir.jarfile}" />
+			<zipfileset dir="/Users/Ronan/Java" includes="jsoup-1.8.3.jar" />
+			<zipfileset dir="/Users/Ronan/Java/jsoup" includes="jsoup-1.8.3-javadoc.jar" />
+			<zipfileset dir="/Library/Java/Extensions" includes="junit-4.10.jar" />
+			<zipfileset dir="/Users/Ronan/Java/Extensions" includes="junit-4.10.jar" />
+		</jar>
+	</target>
 
 	<!-- Create Java application archive (Jar) -->
-	<target name="archive" depends="compile">
+	<!-- <target name="archive" depends="create_run_jar">
         <jar destfile="${distDir}/wordcloud.jar" basedir="${distDir}" excludes="**/*Test.class, **/Compact*.class">
-        	 <manifest>
-        	 	<attribute name="Main-Class" value="ie.gmit.sw.Runner"/>
-				<attribute name="Built-By" value="${user.name}"/>
-				<attribute name="Implementation-Vendor" value="${org.name}"/>
-				<attribute name="Implementation-Title" value="${app.name}"/>
-				<attribute name="Implementation-Version" value="${app.version}"/>
-			</manifest>
+      <manifest>
+        <attribute name="Main-Class" value="ie.gmit.sw.Runner"/>
+		<attribute name="Built-By" value="${user.name}"/>
+		<attribute name="Implementation-Vendor" value="${org.name}"/>
+		<attribute name="Implementation-Title" value="${app.name}"/>
+		<attribute name="Implementation-Version" value="${app.version}"/>
+	</manifest>
         </jar>
-    </target>
-
+    </target> -->
 
 	<!-- Generate JavaDocs -->
-    <target name="docs" depends="archive">
-        <javadoc sourcepath="${srcDir}" destdir="${docDir}" author="true" version="true" use="true" windowtitle="A Java Word Cloud API" >
-            <doctitle><![CDATA[<h1>A Java Word Cloud API</h1>]]></doctitle>
-            <link href="file:/Users/Ronan/Java/jsoup/jsoup-1.8.3-javadoc/"/>
-            <bottom><![CDATA[<i>Copyright &#169; 2015</i>]]></bottom>
-        </javadoc>
-    </target>
+	<target name="docs" depends="create_run_jar">
+		<javadoc sourcepath="${srcDir}" destdir="${docDir}" author="true" version="true" use="true" windowtitle="A Java Word Cloud API">
+			<doctitle>
+				<![CDATA[<h1>A Java Word Cloud API</h1>]]></doctitle>
+		<link href="file:/Users/Ronan/Java/jsoup/jsoup-1.8.3-javadoc/" />
+		<bottom>
+			<![CDATA[<i>Copyright &#169; 2015</i>]]></bottom>
+</javadoc>
+</target>
 
 
-	<!-- Compress classes and documentation into Zip and compressed tarball -->
-	<target name="deploy" depends="docs">
-		<tar destfile="${distDir}/${user.name}.tar.gz" basedir="${distDir}" includes="*" compression="gzip"/>
-		<zip destfile="${distDir}/${user.name}.zip" basedir="${distDir}"/>
-    </target>
+<!-- Compress classes and documentation into Zip and compressed tarball -->
+<target name="deploy" depends="docs">
+<tar destfile="${distDir}/${user.name}.tar.gz" basedir="${distDir}" includes="*" compression="gzip" />
+<zip destfile="${distDir}/${user.name}.zip" basedir="${distDir}" />
+</target>
 </project>

@@ -8,11 +8,13 @@ import java.util.*;
 import javax.swing.*;
 
 /**
+ * Draws the words on the screen.
  * Does the actual painting/drawing of the words onto a new JPanel. First
  * calculates the positions of the words. A Spiral algorithm and randomness is
  * used to move the words so that they don't touch. There is a maximum number of
  * tries for the spiral algorithm, then the word is just placed. (needs
  * improvement)
+ * @author Ronan
  */
 public class DisplayGraphics extends JPanel {
 
@@ -44,6 +46,9 @@ public class DisplayGraphics extends JPanel {
 	// misc
 	JFrame fr2;
 
+	/**
+	 * @param words List of WordObjects
+	 */
 	public DisplayGraphics(ArrayList<WordObject> words) {
 		this.words = words;
 		this.maxWords = 50;
@@ -51,6 +56,11 @@ public class DisplayGraphics extends JPanel {
 		config();
 	}
 
+	/**
+	 * @param words List of WordObjects
+	 * @param maxWords Maximum words to use
+	 * @param maxIntersectTries Maximum amount of times to check for intersection
+	 */
 	public DisplayGraphics(ArrayList<WordObject> words, int maxWords, int maxIntersectTries) {
 		this.words = words;
 		this.maxWords = maxWords;
@@ -72,7 +82,7 @@ public class DisplayGraphics extends JPanel {
 
 		// disable screen resize
 		fr2.setResizable(false);
-		
+
 		// opens program centre of screen
 		// fr2.setLocationRelativeTo(null);
 
@@ -125,7 +135,7 @@ public class DisplayGraphics extends JPanel {
 	}
 
 	/**
-	 * Returns a random color.
+	 * @return Color Returns a random color.
 	 */
 	private Color getColor() {
 		// get a random colour
@@ -142,6 +152,7 @@ public class DisplayGraphics extends JPanel {
 	 * is the most CPU intensive part as the spiral algorithm lives here and
 	 * each word runs in a loop of its own to find a free space on the
 	 * JPanel(JFrame).
+	 * @param g Default Graphics input from PaintComponent.
 	 */
 	private void calculateShapes(Graphics g) {
 		// reset shapes list
@@ -248,6 +259,7 @@ public class DisplayGraphics extends JPanel {
 	/**
 	 * Updates the title of the JFrame(JPanel) used for drawing, so that the
 	 * user can see the loading percentage.
+	 * @param wordCount The total amount of words completed.
 	 */
 	private void updateTitleLoading(int wordCount) {
 		double loadPerc;
@@ -290,6 +302,10 @@ public class DisplayGraphics extends JPanel {
 	 * spiral trying to find a free space on the JPanel. If no space is found
 	 * after the max iterations stated then the word is placed wherever the last
 	 * x/y pos is.
+	 * @param totalArea Total area used so far
+	 * @param intersection Is there an intersection yet?
+	 * @param count How many times we have checked this word for intersections.
+	 * @return returns true of false
 	 */
 	private boolean IntersectionLooper(Area totalArea, boolean intersection, int count) {
 		// while intersection or count has not been reached (250'000 per
@@ -383,11 +399,23 @@ public class DisplayGraphics extends JPanel {
 		}
 	}
 
+	/**
+	 * @param x Coordinate X
+	 * @param y Coordinate Y
+	 * @param wordObject Details from WordObject
+	 * @param g2d Graphics2D object
+	 */
 	private void drawWord(int x, int y, WordObject wordObject, Graphics2D g2d) {
 		Graphics2D graphics2d = wordObject.getGraphics2d();
 		graphics2d.drawString(wordObject.getWord(), wordObject.getX(), wordObject.getY());
 	}
 
+	/**
+	 * @param x Coordinate X
+	 * @param y Coordinate Y
+	 * @param wordObject Details from WordObject
+	 * @param g2d Graphics2D object
+	 */
 	private void saveWordPos(int x, int y, WordObject wordObject, Graphics2D g2d) {
 		wordObject.setGraphics2d(g2d);
 		wordObject.setX(x);
@@ -395,8 +423,10 @@ public class DisplayGraphics extends JPanel {
 	}
 
 	/**
+	 * (non-Javadoc)
 	 * Starts the word calculates off (happens once). Then paints the words as
 	 * needed. This method is called automatically.
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -437,6 +467,8 @@ public class DisplayGraphics extends JPanel {
 
 	/**
 	 * Creates a random number.
+	 * @param maximum Range for random number
+	 * @return returns random number
 	 */
 	private int randomNum(int maximum) {
 		// creates a random number, plus/minus sign is also random

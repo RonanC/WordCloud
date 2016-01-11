@@ -8,19 +8,19 @@ import java.io.FileReader;
  *
  */
 public class FileDataReader implements DataReader {
-	/**
-	 * 
-	 */
 	private String fileLocation;
-	
+
 	/**
 	 * @param fileLocation
+	 *            Location of data file
 	 */
 	public FileDataReader(String fileLocation) {
 		this.fileLocation = fileLocation;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ie.gmit.sw.io.DataReader#getData()
 	 */
 	@Override
@@ -37,14 +37,18 @@ public class FileDataReader implements DataReader {
 		return sb.toString();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ie.gmit.sw.io.DataReader#getDataLocation()
 	 */
 	public String getDataLocation() {
 		return fileLocation;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ie.gmit.sw.io.DataReader#setDataLocation(java.lang.String)
 	 */
 	public void setDataLocation(String fileLocation) {
