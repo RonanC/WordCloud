@@ -1,5 +1,7 @@
 package ie.gmit.sw.test.io;
 
+import static org.junit.Assert.*;
+
 import org.junit.*;
 
 import ie.gmit.sw.io.DataReaderFactory;
@@ -37,9 +39,11 @@ public class TestDataReaderFactory {
 
 		fileLocation = "sampleData/SampleText.txt";
 		FileDataReader fdr = (FileDataReader) dataReaderFactory.getReader("file", fileLocation);
+		assertEquals(fileLocation, fdr.getDataLocation()); 
 
 		fileLocation = "http://www.ronanconnolly.ie";
 		UrlDataReader udr = (UrlDataReader) dataReaderFactory.getReader("url", fileLocation);
+		assertEquals(fileLocation, udr.getDataLocation()); 
 	}
 
 	@Test(expected = ClassCastException.class)
@@ -50,6 +54,7 @@ public class TestDataReaderFactory {
 
 		fileLocation = "http://www.ronanconnolly.ie";
 		FileDataReader fdr = (FileDataReader) dataReaderFactory.getReader("url", fileLocation);
+		assertEquals(fileLocation, fdr.getDataLocation()); 
 	}
 
 	@After

@@ -4,12 +4,7 @@ package ie.gmit.sw.graphics;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -81,7 +76,7 @@ public class DisplayGraphics extends JPanel {
 		this.words = words;
 		this.maxWords = maxWords;
 		this.maxIntersectTries = 2500000;
-		this.maxFontSize = maxFontSize;
+		this.setMaxFontSize(maxFontSize);
 		config();
 	}
 
@@ -550,4 +545,12 @@ public class DisplayGraphics extends JPanel {
 		// System.out.println("ranNum: " + randomNum);
 		return randomNum;
 	} // randomNum
+
+	public int getMaxFontSize() {
+		return maxFontSize;
+	}
+
+	public void setMaxFontSize(int maxFontSize) {
+		this.maxFontSize = maxFontSize;
+	}
 } // class
