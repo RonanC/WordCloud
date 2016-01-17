@@ -110,7 +110,6 @@ OR
 7 - Future Features
 ---
 - Implement program (jar) as an applet in a website (java web project).
-- Update spiral algorithm.
 
 
 8 - References
